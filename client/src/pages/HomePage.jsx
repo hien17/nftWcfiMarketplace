@@ -1,18 +1,15 @@
 import React from "react";
-import {
-  Navbar,
-  Footer,
-  Introduce,
-  IntroduceImage,
-  NavbarHome,
-} from "../components";
+import { ContextProvider } from "../context/Context.jsx";
+import { Footer, NavbarHome, HomeBody } from "../components";
 
 const HomePage = () => {
   return (
-    <div className="">
-      <NavbarHome></NavbarHome>
-      <Footer>Footer</Footer>
-    </div>
+    <ContextProvider>
+      <div className="flex">
+        <NavbarHome></NavbarHome>
+        <HomeBody></HomeBody>
+      </div>
+    </ContextProvider>
   );
 };
 

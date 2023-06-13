@@ -12,6 +12,7 @@ import {
   BrowserRouter,
 } from "react-router-dom";
 import { LandingPage, HomePage, MarketplacePage, AssetsPage } from "./pages";
+import { ContextProvider } from "./context/Context";
 
 function App() {
   // return (
@@ -23,14 +24,16 @@ function App() {
   //   </div>
   // );
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/marketplace" element={<MarketplacePage />} />
-        <Route path="/assets" element={<AssetsPage />} />
-      </Routes>
-    </BrowserRouter>
+    <ContextProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/marketplace" element={<MarketplacePage />} />
+          <Route path="/assets" element={<AssetsPage />} />
+        </Routes>
+      </BrowserRouter>
+    </ContextProvider>
   );
 }
 

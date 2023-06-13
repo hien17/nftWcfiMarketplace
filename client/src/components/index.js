@@ -5,3 +5,4 @@ export { default as NavbarAssets } from "./NavbarAssets";
 export { default as Footer } from "./Footer";
 export { default as Introduce } from "./Introduce";
 export { default as IntroduceImage } from "./IntroduceImage";
+export { default as HomeBody } from "./HomeBody";

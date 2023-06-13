@@ -1,4 +1,4 @@
-colors = {
+export const colors = {
   Blue1: "#CBF0FE",
   Blue2: "#99DCFD",
   Blue3: "#65C2FB",
@@ -41,7 +41,8 @@ colors = {
   Primary5: "#FFBB02",
   Primary6: "#DB9A01",
   Primary7: "#B77C01",
-  Gradient: "gradient",
+  Gradient:
+    "bg-gradient-to-r from-teal-200 via-cyan-300 via-purple-400 to-pink-400",
   White: "FFFFFF",
   Gray1: "#F3F4F7",
   Gray2: "#E7EAEE",

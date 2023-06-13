@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
-
 import { contractABI, contractAddress } from "../utils/constants";
 
 export const Context = React.createContext();
@@ -21,7 +20,7 @@ const createEthereumContract = () => {
   return transactionsContract;
 };
 
-export const TransactionsProvider = ({ children }) => {
+export const ContextProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
   const checkIfWalletIsConnect = async () => {
     try {

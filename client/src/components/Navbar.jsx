@@ -14,7 +14,8 @@ const Navbar = () => {
       <div className="WCFIFooter text-34 font-bold leading-42 text-5xl font-bold text-left">
         WCFI
       </div>
-      <div className="text-base font-bold leading-28 flex flex-row items-start p-0 gap-10">
+      <div className="text-base font-bold leading-28 flex 
+      flex-row items-start p-0 gap-10">
         <a
           className="bg-gradient-to-r from-teal-200 via-cyan-300 
       via-purple-400 to-pink-400 text-transparent 
