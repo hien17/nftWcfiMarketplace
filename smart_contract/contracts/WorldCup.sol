@@ -17,7 +17,7 @@ contract WorldCup is ERC721, Ownable {
     uint256 public constant cost = 0.0001 ether;
 
     string public baseURI = "ipfs://image/";
-
+    uint256[32] public ratios = [8, 10, 11, 14, 19, 19, 22, 22, 26, 52, 65, 93, 121, 121, 149, 149, 186, 186, 280, 280, 373, 466, 466, 466, 466, 559, 746, 746, 932, 932, 1864];
     bool public isPaused = false;
 
     event Mint(
@@ -45,51 +45,15 @@ contract WorldCup is ERC721, Ownable {
 
     mapping(address => uint256) private mintCounts;
 
-    mapping(uint256 => string[]) private tiers;
+    mapping(uint256 => string[]) public  tiers;
+    
 
     constructor() ERC721("Worldcup22ShoeNFT", "WCS") {
-        tiers[0] = [
-            "Brazil",
-            "France",
-            "England",
-            "Spain",
-            "Germany",
-            "Argentina",
-            "Belgium",
-            "Portygal"
-        ];
-        tiers[1] = [
-            "Netherlands",
-            "Denmark",
-            "Croatia",
-            "Uruguay",
-            "Poland",
-            "Senegal",
-            "United States",
-            "Serbia"
-        ];
-        tiers[2] = [
-            "Switzerland",
-            "Mexico",
-            "Wales",
-            "Ghana",
-            "Ecuador",
-            "Moroco",
-            "Cameroon",
-            "Canada"
-        ];
-        tiers[3] = [
-            "Japan",
-            "Qatar",
-            "Tunisia",
-            "South Korea",
-            "Australia",
-            "Iran",
-            "Saudi Arabia",
-            "Costa Rica"
-        ];
+        tiers[0]=["Brazil","France","England","Spain","Germany","Argentina","Belgium","Portugal"];
+        tiers[1]=["Netherlands","Denmark","Croatia","Uruguay","Poland","Senegal","United States","Serbia"];
+        tiers[2]=["Switzerland","Mexico","Wales","Ghana","Ecuador","Morocco","Cameroon","Canada"];
+        tiers[3]=["Japan","Qatar","Tunisia","South Korea","Australia","Iran","Saudi Arabia","Costa Rica"];
     }
-
     struct NFT {
         string name;
         string description;
@@ -145,7 +109,7 @@ contract WorldCup is ERC721, Ownable {
             require(msg.value >= cost, "Insufficient funds to mint tokens");
         }
 
-        string memory trait = getRandomElement();
+        string memory trait = _generateRandomRankWithRatio(ratios);
         uint256 tokenId = _tokenIdCounter.current().add(1);
         _safeMint(msg.sender, tokenId);
         _nfts[tokenId] = NFT("Worldcup22ShoeNFT", "Worldcup 2022 Shoe NFT", trait);
@@ -156,31 +120,43 @@ contract WorldCup is ERC721, Ownable {
         emit Mint(block.timestamp, address(0), msg.sender, tokenId);
     }
 
-    function getRandomElement() internal view returns (string memory) {
-        uint256 randomElement;
+   /**
+     * @dev Lấy ngẫy nhiên một rank từ array rank truyền vào theo tỉ lệ nhất định
+     * @param ratios_ tỉ lệ tương ứng random ra các tier element
+     */
+    function _generateRandomRankWithRatio(
+        uint256[32] memory ratios_ 
+    ) public view returns (string memory) {
         uint256 num = mintCounts[msg.sender];
-        // after 3 times => only tier1 and tier2
-        if (num >= 3 && num %3 == 0) {
-            randomElement = randomModulus(16);
-        } 
-        // all 4 tiers
-        else {
-            randomElement = randomModulus(32);
+        if (num>=3 && num%3==0) {
+            uint256 randLucky = _randInRange(0,15);
+            return tiers[randLucky/8][randLucky%8];
         }
-        return tiers[randomElement/8][randomElement%8];
+        uint256 rand = _randInRange(1, 10000);
+        uint256 flag = 0;
+        for (uint8 i = 0; i < 32; i++) {
+            if (rand <= ratios_[i] + flag && rand >= flag) {
+                return tiers[i/8][i%8];
+            }
+            flag = flag + ratios_[i];
+        }
+        return "Costa Rica";
     }
 
-    function randomModulus(uint256 mob) internal view returns (uint256) {
-        return
-            uint256(
-                keccak256(
-                    abi.encodePacked(
-                        block.timestamp,
-                        block.prevrandao,
-                        msg.sender
-                    )
-                )
-            ) % mob;
+    /**
+     * @dev Random trong khoảng min đến max
+     */
+    function _randInRange(uint256 min, uint256 max)
+        public
+        view
+        returns (uint256)
+    {
+        uint256 num = uint256(
+            keccak256(
+                abi.encodePacked(block.timestamp, block.prevrandao, msg.sender)
+            )
+        ) % (max + 1 - min);
+        return num + min;
     }
 
 
@@ -192,9 +168,9 @@ contract WorldCup is ERC721, Ownable {
         emit Withdraw(owner, address(this).balance);
     }
 
-    function getOwner(uint256 tokenId) public view isExist(tokenId) returns (address) {
-        return ownerOf(tokenId);
-    }
+    // function getOwner(uint256 tokenId) public view isExist(tokenId) returns (address) {
+    //     return ownerOf(tokenId);
+    // }
     
     function getTotalOwerMint() external view returns (uint256) {
         return mintCounts[msg.sender];
