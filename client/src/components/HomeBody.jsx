@@ -5,6 +5,8 @@ import { Context } from "../context/Context.jsx";
 import { shortenAddress } from "../utils/shortenAddress";
 import { AiOutlineQuestionCircle } from "react-icons/Ai";
 import Tier from "./Tier";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/system/Box";
 const tier1Array = [
   { name: "Brazil", minted: "84", rarity: "0.08%", value: "≈$96,000" },
   { name: "France", minted: "104", rarity: "0.10%", value: "≈$77,538" },
@@ -46,6 +48,19 @@ const tier4Array = [
   { name: "Costa Rica", minted: "18,790", rarity: "18,64%", value: "≈$429" },
 ];
 const tierNumber = [1, 2, 3, 4];
+const findRarityAndValue = (name) => {
+  const arrays = [tier1Array, tier2Array, tier3Array, tier4Array];
+
+  for (const array of arrays) {
+    const obj = array.find((obj) => obj.name === name);
+    if (obj) {
+      return { rarity: obj.rarity, value: obj.value };
+    }
+  }
+
+  return null;
+};
+
 import {
   BrowserRouter as Router,
   Route,
@@ -55,7 +70,15 @@ import {
 } from "react-router-dom";
 
 const HomeBody = () => {
-  const { currentAccount, connectWallet,handleMint } = useContext(Context);
+  const {
+    currentAccount,
+    connectWallet,
+    handleMint,
+    showModal,
+    setShowModal,
+    mintedNftDetails,
+    nftId,
+  } = useContext(Context);
   return (
     <div className="bg-black w-full mx-auto flex justify-center">
       <div
@@ -118,12 +141,173 @@ const HomeBody = () => {
                       className=" text-white relative z-20  py-3 px-6"
                     >
                       {currentAccount ? (
-                        <button
-                          className=""
-                          onClick={handleMint}
-                        >
-                          Mint NFT
-                        </button>
+                        <>
+                          <button className="" onClick={handleMint}>
+                            Mint NFT
+                          </button>
+                          <Modal
+                            open={showModal}
+                            onClose={() => setShowModal(false)}
+                          >
+                            <Box
+                              sx={{
+                                position: "flex",
+                              }}
+                            >
+                              <Box
+                                sx={{
+                                  position: "absolute",
+                                  top: "45%",
+                                  left: "50%",
+                                  transform: "translate(-50%, -50%)",
+                                  width: "464px",
+                                  height: "628px",
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  alignItems: "flex-start",
+                                  alignSelf: "flex-start",
+                                  padding: 0,
+                                  background: "black",
+                                  borderRadius: 2,
+                                  boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.25)",
+                                  overflow: "hidden",
+                                  border: "1px solid",
+                                  borderImageSource:
+                                    "linear-gradient(102.88deg, #80E8DD 10.19%, #7CC2F6 43.04%, #AF81E4 72%, #D855A6 93.18%)",
+                                  borderImageSlice: "1",
+                                }}
+                              >
+                                <div className="text-white p-[40px] mb-[40px]">
+                                  {mintedNftDetails ? (
+                                    <>
+                                      <img
+                                        src={`/Image/Tiers/${mintedNftDetails?.traits}.png`}
+                                      />
+                                      <p>Team {mintedNftDetails?.traits}</p>
+                                      <p>
+                                        Rarity{" "}
+                                        {
+                                          findRarityAndValue(
+                                            mintedNftDetails.traits
+                                          ).rarity
+                                        }
+                                      </p>
+                                      <p>
+                                        Estimate{" "}
+                                        {
+                                          findRarityAndValue(
+                                            mintedNftDetails.traits
+                                          ).value
+                                        }
+                                      </p>
+                                    </>
+                                  ) : (
+                                    <Box
+                                      sx={{
+                                        width: 200,
+                                        height: 200,
+                                        background: "#232323",
+                                        borderRadius: 12,
+                                      }}
+                                    />
+                                  )}
+                                </div>
+                              </Box>
+                              <Box
+                                sx={{
+                                  position: "absolute",
+                                  top: "790px",
+                                  left: "50%",
+                                  transform: "translateX(-50%)",
+                                  display: "flex",
+                                  flexDirection: "row",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  padding: "16px 24px",
+                                  gap: 8,
+                                  width: 464, // fill width of parent container
+                                  height: 56, // hug content height
+                                  background:
+                                    "linear-gradient(102.88deg, #80E8DD 10.19%, #7CC2F6 43.04%, #AF81E4 72%, #D855A6 93.18%)",
+                                  border: "2px solid #080A0C",
+                                  boxShadow: "4px 4px 0px #FFFFFF",
+                                  borderRadius: "12px",
+                                  flex: "none",
+                                  alignSelf: "flex-end",
+                                  flexGrow: 0,
+                                  color: "#FFFFFF", // text color
+                                  fontSize: "18px", // font size
+                                  fontWeight: "bold", // font weight
+                                  textTransform: "uppercase", // text case
+                                  cursor: "pointer",
+                                  marginTop: "0px", // cursor style
+                                  "&:hover": {
+                                    // hover styles
+                                    background:
+                                      "linear-gradient(102.88deg, #7CC2F6 10.19%, #80E8DD 43.04%, #D855A6 72%, #AF81E4 93.18%)",
+                                    boxShadow: "2px 2px 0px #FFFFFF",
+                                  },
+                                }}
+                              >
+                                <button onClick={() => setShowModal(false)}>
+                                  Collect
+                                </button>
+                              </Box>
+                              <Box
+                                sx={{
+                                  position: "absolute",
+                                  top: "874px",
+                                  left: "50%",
+                                  transform: "translateX(-50%)",
+                                  display: "flex",
+                                  flexDirection: "row",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  padding: "16px 24px",
+                                  gap: 8,
+                                  width: 464, // fill width of parent container
+                                  height: 56, // hug content height
+                                  background: "#0E1114", // gray background color
+                                  // boxShadow: "4px 4px 0px #FFFFFF",
+                                  borderRadius: "12px",
+                                  flex: "none",
+                                  alignSelf: "flex-end",
+                                  flexGrow: 0,
+                                  color: "#FFFFFF", // text color
+                                  fontSize: "18px", // font size
+                                  fontWeight: "bold", // font weight
+                                  textTransform: "uppercase", // text case
+                                  cursor: "pointer",
+                                  marginTop: "0px", // cursor style
+                                  border: "1px solid",
+                                  borderImageSource:
+                                    "linear-gradient(102.88deg, #80E8DD 10.19%, #7CC2F6 43.04%, #AF81E4 72%, #D855A6 93.18%)",
+                                  borderImageSlice: "1",
+                                }}
+                              >
+                                <button
+                                  sx={{
+                                    color: "#FFFFFF",
+                                    fontSize: "18px",
+                                    fontWeight: "bold",
+                                    textTransform: "uppercase",
+                                    cursor: "pointer",
+                                    height: "56px",
+                                    width: "464px",
+                                    border: "none",
+                                    background: "transparent",
+                                    "&:hover": {
+                                      color: "#7CC2F6",
+                                    },
+                                  }}
+                                  onClick={() => setShowModal(false)}
+                                >
+                                  View On BSCscan
+                                </button>
+                              </Box>
+                            </Box>
+                          </Modal>
+                        </>
                       ) : (
                         "Connect\u00a0Wallet"
                       )}

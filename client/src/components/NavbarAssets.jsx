@@ -1,5 +1,10 @@
-import React from 'react'
+import React, { useContext } from "react";
 import "../App.css";
+import { useEffect, useState } from "react";
+import { ethers } from "ethers";
+import BUSD from "/Image/BUSD.png";
+import { Context } from "../context/Context.jsx";
+import { shortenAddress } from "../utils/shortenAddress";
 import {
   BrowserRouter as Router,
   Route,
@@ -9,6 +14,7 @@ import {
 } from "react-router-dom";
 
 const NavbarAssets = () => {
+  const { currentAccount, connectWallet } = useContext(Context);
   return (
     <div className="Navbar text-white flex flex-row justify-between items-center ">
       <Link
@@ -28,23 +34,55 @@ const NavbarAssets = () => {
           Assets
         </a>
       </div>
-      <div>
-        <div></div>
-        <button
-          className="flex flex-row justify-center 
+      <div className="flex gap-x-10">
+        <div className="flex my-1 items-center">
+          <div className="">
+            <img className="max-h-10 mr-2" src={BUSD} />
+          </div>
+          <div className="flex flex-col">
+            <p className="text-left text-slate-500">BUSD</p>
+            <p>{currentAccount ? "200,000.00" : "0"}</p>
+          </div>
+        </div>
+        {currentAccount ? (
+          <button
+            className="
       items-center bg-gradient-to-r from-teal-200 
       via-cyan-300 via-purple-400 to-pink-400 
-      text-base font-bold
-      rounded-2xl border-r-4 border-b-4 py-3 px-6
+      text-base rounded-2xl 
        "
-        >
-          <Link to="/home" className="">
-            Connect Wallet
-          </Link>
-        </button>
+          >
+            <div className="m-0.5 bg-black py-[14px] rounded-2xl">
+              <Link to="/assets" className=" py-3 px-6">
+                {currentAccount
+                  ? shortenAddress(currentAccount)
+                  : "Connect Wallet"}
+              </Link>
+            </div>
+          </button>
+        ) : (
+          <button
+            className="relative flex flex-row justify-center 
+      items-center bg-gradient-to-r from-teal-200 
+      via-cyan-300 via-purple-400 to-pink-400 
+      text-base border-white
+      rounded-2xl border-r-4 border-b-4 py-3 px-6 
+       "
+            onClick={connectWallet}
+          >
+            <div className="absolute top-0 left-0 h-full w-full z-10 rounded-xl border-black border-2"></div>
+            <Link
+              to="/assets"
+              className="relative z-20
+               text-white "
+            >
+              Connect Wallet
+            </Link>
+          </button>
+        )}
       </div>
     </div>
   );
-}
+};
 
-export default NavbarAssets
+export default NavbarAssets;
