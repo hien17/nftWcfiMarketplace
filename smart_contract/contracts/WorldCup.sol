@@ -26,7 +26,7 @@ contract WorldCup is ERC721, Ownable {
         address indexed _to,
         uint256 indexed _tokenId
     );
-    event Transfer(
+    event TransferDetail(
         uint256 _date,
         address indexed _from,
         address indexed _to,
@@ -44,12 +44,13 @@ contract WorldCup is ERC721, Ownable {
     );
 
     mapping(address => uint256) private mintCounts;
+    uint256 public totalMintCounts;
 
     mapping(uint256 => string[]) public  tiers;
     
 
     constructor() ERC721("Worldcup22ShoeNFT", "WCS") {
-        tiers[0]=["Brazil","France","England","Spain","Germany","Argentina","Belgium","Portugal"];
+        tiers[0] = ["Brazil","France","England","Spain","Germany","Argentina","Belgium","Portugal"];
         tiers[1]=["Netherlands","Denmark","Croatia","Uruguay","Poland","Senegal","United States","Serbia"];
         tiers[2]=["Switzerland","Mexico","Wales","Ghana","Ecuador","Morocco","Cameroon","Canada"];
         tiers[3]=["Japan","Qatar","Tunisia","South Korea","Australia","Iran","Saudi Arabia","Costa Rica"];
@@ -112,11 +113,11 @@ contract WorldCup is ERC721, Ownable {
         string memory trait = _generateRandomRankWithRatio(ratios);
         uint256 tokenId = _tokenIdCounter.current().add(1);
         _safeMint(msg.sender, tokenId);
-        _nfts[tokenId] = NFT("Worldcup22ShoeNFT", "Worldcup 2022 Shoe NFT", trait);
+        _nfts[tokenId] = NFT("WCS", "Worldcup 2022 Shoe NFT", trait);
 
         _tokenIdCounter.increment();
         mintCounts[msg.sender]++;
-
+        totalMintCounts++;
         emit Mint(block.timestamp, address(0), msg.sender, tokenId);
     }
 
@@ -128,7 +129,7 @@ contract WorldCup is ERC721, Ownable {
         uint256[32] memory ratios_ 
     ) public view returns (string memory) {
         uint256 num = mintCounts[msg.sender];
-        if (num>=3 && num%3==0) {
+        if (num>=3 && num%4==3) {
             uint256 randLucky = _randInRange(0,15);
             return tiers[randLucky/8][randLucky%8];
         }
@@ -171,14 +172,13 @@ contract WorldCup is ERC721, Ownable {
     // function getOwner(uint256 tokenId) public view isExist(tokenId) returns (address) {
     //     return ownerOf(tokenId);
     // }
-    
     function getTotalOwerMint() external view returns (uint256) {
         return mintCounts[msg.sender];
     }
 
     function transfer(address to, uint256 tokenId) public virtual isApprovedOrOwner(tokenId) isNotZeroAddress(to) {
         _transfer(msg.sender, to, tokenId);
-        emit Transfer(block.timestamp, msg.sender, to, tokenId);
+        emit TransferDetail(block.timestamp, msg.sender, to, tokenId);
     }
 
     function getMetadata(uint256 tokenId) external view isExist(tokenId) returns (NFT memory) {

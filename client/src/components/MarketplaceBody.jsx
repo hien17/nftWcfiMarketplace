@@ -1,10 +1,10 @@
 import React from "react";
 import Information from "./Information";
+import SingleCard from "./SingleCard";
 import { Box, Select, Text } from "@chakra-ui/react";
 const MarketplaceBody = () => {
   return (
-    <div className="w-screen h-screen bg-black flex flex-col gap-[40px]">
-      
+    <div className="w-screen h-[3364px] bg-black flex flex-col gap-[40px]">
       <Box
         className="rounded-lg bg-black flex flex-col 
       items-start p-[40px] border border-slate-700
@@ -46,16 +46,50 @@ const MarketplaceBody = () => {
         <p className="text-left">Items (Total 90000)</p>
         <div className="absolute right-0 flex flex-row">
           <button className="absolute right-[200px] ">
-          <Select className="bg-black border border-slate-500 py-[12px] pl-[16px] rounded-xl" w={"12rem"} color={"white"}>
-                    <option value='option1' >Newest</option>
-                    <option value='option2'>Price: high to low</option>
-                    <option value='option3'>Price: low to high</option>
-                </Select>
+            <Select
+              className="bg-black border border-slate-500 py-[12px] pl-[16px] rounded-xl"
+              w={"12rem"}
+              color={"white"}
+            >
+              <option value="option1">Newest</option>
+              <option value="option2">Price: high to low</option>
+              <option value="option3">Price: low to high</option>
+            </Select>
           </button>
           <button className="py-[12px] px-[16px] border border-slate-800 rounded-xl">
-              Filter
+            Filter
           </button>
-          </div>
+        </div>
+      </Box>
+      <Box
+        className="flex flex-col justify-items-start 
+      p-0 gap-[40px] absolute left-[132px] right-[132px]
+       top-[500px] h-[2662px] rounded-xl"
+      >
+        <Box className="flex flex-wrap justify-between w-full">
+          <SingleCard />
+          <SingleCard />
+          <SingleCard />
+          <SingleCard />
+        </Box>
+        <Box className="flex flex-wrap justify-between w-full">
+          <SingleCard />
+          <SingleCard />
+          <SingleCard />
+          <SingleCard />
+        </Box>
+        <Box className="flex flex-wrap justify-between w-full">
+          <SingleCard />
+          <SingleCard />
+          <SingleCard />
+          <SingleCard />
+        </Box>
+        <Box className="flex flex-wrap justify-between w-full">
+          <SingleCard />
+          <SingleCard />
+          <SingleCard />
+          <SingleCard />
+        </Box>
       </Box>
     </div>
   );

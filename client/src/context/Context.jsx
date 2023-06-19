@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { contractABI, contractAddress } from "../utils/constants";
+import { marketABI, marketAddress } from "../utils/constantsMarket";
 
 export const Context = React.createContext();
 
@@ -15,8 +16,18 @@ const createEthereumContract = () => {
     contractABI,
     signer
   );
+}
+  const createMarketplaceContract = () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+  
+    const signer = provider.getSigner();
+    const Contract = new ethers.Contract(
+      marketAddress,
+      marketABI,
+      signer
+    );
 
-  return transactionsContract;
+  return Contract;
 };
 
 export const ContextProvider = ({ children }) => {
