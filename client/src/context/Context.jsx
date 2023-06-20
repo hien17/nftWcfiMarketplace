@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { contractABI, contractAddress } from "../utils/constants";
-import { marketABI, marketAddress } from "../utils/constantsMarket";
+import { marketplaceABI, marketplaceAddress } from "../utils/constantsMarket";
 
 export const Context = React.createContext();
 
@@ -16,16 +16,17 @@ const createEthereumContract = () => {
     contractABI,
     signer
   );
-}
-  const createMarketplaceContract = () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-  
-    const signer = provider.getSigner();
-    const Contract = new ethers.Contract(
-      marketAddress,
-      marketABI,
-      signer
-    );
+  return transactionsContract;
+};
+const createMarketplaceContract = () => {
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+  const signer = provider.getSigner();
+  const Contract = new ethers.Contract(
+    marketplaceAddress,
+    marketplaceABI,
+    signer
+  );
 
   return Contract;
 };
@@ -35,7 +36,7 @@ export const ContextProvider = ({ children }) => {
   const [contractInstance, setContractInstance] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [mintedNftDetails, setMintedNftDetails] = useState(null);
-  const [nftId,setNftId] = useState(0);
+  const [nftId, setNftId] = useState(0);
   const checkIfWalletIsConnect = async () => {
     try {
       if (!ethereum) return alert("Please install MetaMask.");
@@ -105,10 +106,63 @@ export const ContextProvider = ({ children }) => {
     setNftId(tokenId.toNumber());
     setShowModal(true);
   };
+  const [marketplaceContract, setMarketplaceContract] = useState(null);
+
+  const createMarketplaceInstance =  () => {
+    try {
+     setMarketplaceContract(createMarketplaceContract());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const listNFT = async (tokenId, price) => {
+    try {
+      const listingPrice = await marketplaceContract.getListingPrice();
+
+      // Approve the marketplace contract to transfer the NFT
+      await contractInstance.approve(marketplaceAddress, tokenId);
+
+      // List the NFT for sale on the marketplace
+      await marketplaceContract.listNFT(tokenId, price, {
+        value: listingPrice,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getListedNFTs = async () => {
+    try {
+      return await marketplaceContract.getListedNFTs();
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
+  };
+  // const [traits,setTraits] = useState([]);
+  const getTraitsFromTokenId = async (tokenId) => {
+    try{
+        const metadata = await contractInstance.getMetadata(tokenId);
+        return metadata.traits;
+    }
+    catch (error){
+      console.log(error);
+    }
+  }
+  
   useEffect(() => {
     checkIfWalletIsConnect();
     setContractInstance(createEthereumContract());
-  }, []);
+    createMarketplaceInstance();
+    getTraitsFromTokenId(nftId);
+  }, [nftId]);
+  const getTraits = (tokenId) =>{
+    if (traits!=false){
+      console.log(traits);
+      return traits;
+    }
+  }
 
   return (
     <Context.Provider
@@ -120,7 +174,13 @@ export const ContextProvider = ({ children }) => {
         handleShowModal,
         setShowModal,
         mintedNftDetails,
+        contractInstance,
         nftId,
+        listNFT,
+        getListedNFTs,
+        marketplaceAddress,
+        contractAddress,
+        getTraitsFromTokenId,
       }}
     >
       {children}

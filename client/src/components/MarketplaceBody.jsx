@@ -1,8 +1,62 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Information from "./Information";
+import { Context } from "../context/Context.jsx";
 import SingleCard from "./SingleCard";
 import { Box, Select, Text } from "@chakra-ui/react";
+import Modal from "@mui/material/Modal";
 const MarketplaceBody = () => {
+  const {
+    currentAccount,
+    connectWallet,
+    handleMint,
+    showModal,
+    setShowModal,
+    mintedNftDetails,
+    nftId,
+    listNFT,
+    getListedNFTs,
+    marketplaceAddress,
+    getTraitsFromTokenId,
+  } = useContext(Context);
+  // var listings;
+  // var listResult = getListedNFTs()
+  //   .then((data) => {(data)})
+  //   .catch((err) => console.error(err));
+
+  // const [listings, setListings] = useState([]);
+  const [listings, setListings] = useState(false);
+
+  // console.log(listings);
+  useEffect(() => {
+    getListedNFTs()
+    .then((data) => {setListings(data)})
+    .catch((err) => console.error(err));
+    
+  },[getListedNFTs]);
+  // listings!=[]?console.log(listings):{};
+  const getListings = (index)=>{
+    if (listings!=[]){
+      // console.log(listings[0]);
+      return listings[index];
+    }
+  }
+  // const getTraits = (tokenId) =>{
+  //   if (traits!=false){
+  //     return traits;
+  //   }
+  // }
+  // console.log(1);
+  
+  
+
+
+  //   getListedNFTsAsync();
+  // }, []);
+
+  // console.log(listings);
+ 
+
+
   return (
     <div className="w-screen h-[3364px] bg-black flex flex-col gap-[40px]">
       <Box
@@ -62,11 +116,11 @@ const MarketplaceBody = () => {
         </div>
       </Box>
       <Box
-        className="flex flex-col justify-items-start 
+        className="flex flex-row justify-items-start 
       p-0 gap-[40px] absolute left-[132px] right-[132px]
-       top-[500px] h-[2662px] rounded-xl"
+       top-[500px] h-[2662px] rounded-xl border-slate-500 py-[12px] pl-[16px] border"
       >
-        <Box className="flex flex-wrap justify-between w-full">
+        {/* <Box className="flex flex-wrap justify-between w-full">
           <SingleCard />
           <SingleCard />
           <SingleCard />
@@ -89,7 +143,16 @@ const MarketplaceBody = () => {
           <SingleCard />
           <SingleCard />
           <SingleCard />
-        </Box>
+        </Box> */}
+        {(listings!=false)?listings.map((listing, index) => (
+          <SingleCard key={index} listing={getListings(index)} />
+        )): null}
+        {/* <button className="text-white 
+        h-[100px] w-[100px] border 
+        border-white"  
+        onClick={getListings()}
+        >
+          Button</button> */}
       </Box>
     </div>
   );

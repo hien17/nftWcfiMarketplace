@@ -1,7 +1,7 @@
 import abi from './WorldCup.json'
 
 export const contractABI = abi;
-export const contractAddress = '0x07F966E66B40d27d36C17a9a436AeB7d69Df36DC';
+export const contractAddress = '0x5A03F3d51a5E7a8e81892D4F3D6905410e959467';
 
 // import abi from './WCMarketplace.json'
 // export const marketABI  = abi;

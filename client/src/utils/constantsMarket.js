@@ -1,3 +1,3 @@
 import abi from './WCMarketplace.json'
-export const marketABI  = abi;
-export const marketAddress = '0xD882CB28e9EE36c9c79a43E5a93CD4CE4687e12e';
+export const marketplaceABI  = abi;
+export const marketplaceAddress = '0xF882F9d836c9dcB4c07F6AA2c82eC7Bb9c11E705';
