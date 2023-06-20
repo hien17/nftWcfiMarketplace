@@ -14,36 +14,7 @@ import {
 } from "react-router-dom";
 
 const NavbarAsset = () => {
-  // const [address, setAddress] = useState("");
-
-  // useEffect(() => {
-  //   if (window.ethereum) {
-  //     window.ethereum.request({ method: "eth_accounts" }).then((accounts) => {
-  //       if (accounts.length > 0) {
-  //         setAddress(
-  //           accounts[0].substring(0, 6) +
-  //             "..." +
-  //             accounts[0].substring(accounts[0].length - 4)
-  //         );
-  //       }
-  //     });
-  //   }
-  // }, []);
-
-  // const connectWallet = () => {
-  //   if (window.ethereum) {
-  //     window.ethereum
-  //       .request({ method: "eth_requestAccounts" })
-  //       .then((accounts) => {
-  //         setAddress(
-  //           accounts[0].substring(0, 6) +
-  //             "..." +
-  //             accounts[0].substring(accounts[0].length - 4)
-  //         );
-  //       });
-  //   }
-  // };
-  const { currentAccount, connectWallet } = useContext(Context);
+const { currentAccount, connectWallet,getAccountBalance } = useContext(Context);
   return (
     <div className="Navbar text-white flex flex-row justify-between items-center ">
       <Link
@@ -70,7 +41,7 @@ const NavbarAsset = () => {
           </div>
           <div className="flex flex-col">
             <p className="text-left text-slate-500">BUSD</p>
-            <p>{currentAccount ? "200,000.00" : "0"}</p>
+            <p>{currentAccount ? `${getAccountBalance()} BUSD` : "0 BUSD"}</p>
           </div>
         </div>
         {currentAccount ? (

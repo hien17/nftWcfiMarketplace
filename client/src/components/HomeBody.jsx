@@ -133,17 +133,17 @@ const HomeBody = () => {
               via-purple-400 to-pink-400 border-r-4 border-b-4 border-white"
                 >
                   <div
-                    className=" py-4 px-[102px] z-10 h-full w-full
+                    className=" py-4 px-[75px] z-10 h-full w-full
                    rounded-xl border-black border-2"
                   >
                     <Link
                       to="/home"
-                      className=" text-white relative z-20  py-3 px-6"
+                      className=" text-white relative z-20  py-auto px-auto"
                     >
                       {currentAccount ? (
                         <>
                           <button className="" onClick={handleMint}>
-                            Mint NFT
+                            <p>{"Mint\u00a0with\u00a00.01\u00a0BNB"}</p>
                           </button>
                           <Modal
                             open={showModal}
@@ -154,7 +154,7 @@ const HomeBody = () => {
                                 position: "flex",
                               }}
                             >
-                              <Box
+                              <Box className=" rounded-xl"
                                 sx={{
                                   position: "absolute",
                                   top: "45%",
@@ -177,7 +177,7 @@ const HomeBody = () => {
                                   borderImageSlice: "1",
                                 }}
                               >
-                                <div className="text-white p-[40px] mb-[40px]">
+                                <div className="text-white p-[40px] mb-[40px] ">
                                   {mintedNftDetails ? (
                                     <>
                                       <img

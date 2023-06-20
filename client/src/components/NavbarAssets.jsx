@@ -14,7 +14,7 @@ import {
 } from "react-router-dom";
 
 const NavbarAssets = () => {
-  const { currentAccount, connectWallet } = useContext(Context);
+  const { currentAccount, connectWallet,getAccountBalance } = useContext(Context);
   return (
     <div className="Navbar text-white flex flex-row justify-between items-center ">
       <Link

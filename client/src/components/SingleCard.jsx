@@ -68,9 +68,6 @@ const SingleCard = ({ listing }) => {
     marketplaceAddress,
     getTraitsFromTokenId,
   } = useContext(Context);
-  // const getTraitsWithId = async (tokenId) => {
-  //   return await getTraitsFromTokenId(tokenId);
-  // }
   var tokenId = listing.tokenId;
   const [traits, setTraits] = useState(false);
   useEffect(() => {
@@ -80,19 +77,22 @@ const SingleCard = ({ listing }) => {
       })
       .catch((err) => console.error(err));
   }, [tokenId]);
-  console.log(traits);
+
   return (
-    // <div className='flex flex-col justify-items-start p-0
-    // w-[23%] h-[636px] border border-slate-700 rounded-xl'
-    // >{listing.tokenId}
-    // </div>
-    <div className="border border-slate-800 rounded-xl w-[23%] h-[636px]">
-      <img
-        className="w-full h-[464px] object-cover rounded-xl"
-        src={`/Image/Tiers/${traits}.png`}
-        alt="single-card"
-      />
-      <div className="flex flex-col pt-[24px] pl-[24px] pr-[24px] pb-[32px]">
+    <div className="border border-slate-800 bg-[#0E1114] rounded-lg h-fit">
+      <div
+        className="w-full h-[464px] rounded-lg 
+      bg-black flex justify-center"
+      >
+        <img
+          className="object-contain 
+        rounded-lg scale-75"
+          src={`/Image/Tiers/${traits}.png`}
+          alt="single-card"
+        />
+      </div>
+
+      <div className="flex flex-col pt-[24px]  pl-[24px] pr-[24px] pb-[32px] rounded-lg">
         <div className="flex flex-row justify-between mb-[16px] flex-wrap text-left">
           <div className="w-[48%]">
             <p className="text-sm text-slate-500 ">Team</p>

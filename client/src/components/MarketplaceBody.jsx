@@ -18,45 +18,22 @@ const MarketplaceBody = () => {
     marketplaceAddress,
     getTraitsFromTokenId,
   } = useContext(Context);
-  // var listings;
-  // var listResult = getListedNFTs()
-  //   .then((data) => {(data)})
-  //   .catch((err) => console.error(err));
 
-  // const [listings, setListings] = useState([]);
   const [listings, setListings] = useState(false);
 
-  // console.log(listings);
   useEffect(() => {
     getListedNFTs()
-    .then((data) => {setListings(data)})
-    .catch((err) => console.error(err));
-    
-  },[getListedNFTs]);
-  // listings!=[]?console.log(listings):{};
-  const getListings = (index)=>{
-    if (listings!=[]){
-      // console.log(listings[0]);
+      .then((data) => {
+        setListings(data);
+      })
+      .catch((err) => console.error(err));
+  }, [getListedNFTs]);
+
+  const getListings = (index) => {
+    if (listings != []) {
       return listings[index];
     }
-  }
-  // const getTraits = (tokenId) =>{
-  //   if (traits!=false){
-  //     return traits;
-  //   }
-  // }
-  // console.log(1);
-  
-  
-
-
-  //   getListedNFTsAsync();
-  // }, []);
-
-  // console.log(listings);
- 
-
-
+  };
   return (
     <div className="w-screen h-[3364px] bg-black flex flex-col gap-[40px]">
       <Box
@@ -115,44 +92,18 @@ const MarketplaceBody = () => {
           </button>
         </div>
       </Box>
+      {/* //wrap of items */}
       <Box
-        className="flex flex-row justify-items-start 
-      p-0 gap-[40px] absolute left-[132px] right-[132px]
-       top-[500px] h-[2662px] rounded-xl border-slate-500 py-[12px] pl-[16px] border"
+        className="grid grid-cols-4 gap-4 
+        absolute left-[132px] right-[132px]
+       top-[500px] h-fit rounded-xl 
+      
+       "
       >
-        {/* <Box className="flex flex-wrap justify-between w-full">
-          <SingleCard />
-          <SingleCard />
-          <SingleCard />
-          <SingleCard />
-        </Box>
-        <Box className="flex flex-wrap justify-between w-full">
-          <SingleCard />
-          <SingleCard />
-          <SingleCard />
-          <SingleCard />
-        </Box>
-        <Box className="flex flex-wrap justify-between w-full">
-          <SingleCard />
-          <SingleCard />
-          <SingleCard />
-          <SingleCard />
-        </Box>
-        <Box className="flex flex-wrap justify-between w-full">
-          <SingleCard />
-          <SingleCard />
-          <SingleCard />
-          <SingleCard />
-        </Box> */}
-        {(listings!=false)?listings.map((listing, index) => (
-          <SingleCard key={index} listing={getListings(index)} />
-        )): null}
-        {/* <button className="text-white 
-        h-[100px] w-[100px] border 
-        border-white"  
-        onClick={getListings()}
-        >
-          Button</button> */}
+        {listings &&
+          listings.map((listing, index) => (
+            <SingleCard key={index} listing={getListings(index)} />
+          ))}
       </Box>
     </div>
   );

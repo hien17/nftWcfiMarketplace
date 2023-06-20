@@ -14,36 +14,7 @@ import {
 } from "react-router-dom";
 
 const NavbarHome = () => {
-  // const [address, setAddress] = useState("");
-
-  // useEffect(() => {
-  //   if (window.ethereum) {
-  //     window.ethereum.request({ method: "eth_accounts" }).then((accounts) => {
-  //       if (accounts.length > 0) {
-  //         setAddress(
-  //           accounts[0].substring(0, 6) +
-  //             "..." +
-  //             accounts[0].substring(accounts[0].length - 4)
-  //         );
-  //       }
-  //     });
-  //   }
-  // }, []);
-
-  // const connectWallet = () => {
-  //   if (window.ethereum) {
-  //     window.ethereum
-  //       .request({ method: "eth_requestAccounts" })
-  //       .then((accounts) => {
-  //         setAddress(
-  //           accounts[0].substring(0, 6) +
-  //             "..." +
-  //             accounts[0].substring(accounts[0].length - 4)
-  //         );
-  //       });
-  //   }
-  // };
-  const { currentAccount, connectWallet } = useContext(Context);
+  const { currentAccount, connectWallet,getAccountBalance } = useContext(Context);
   return (
     <div className="Navbar text-white flex flex-row justify-between items-center ">
       <Link
