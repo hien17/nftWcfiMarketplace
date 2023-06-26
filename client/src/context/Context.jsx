@@ -47,6 +47,7 @@ export const ContextProvider = ({ children }) => {
         setCurrentAccount(accounts[0]);
       } else {
         console.log("No accounts found");
+        
       }
     } catch (error) {
       console.log(error);
@@ -161,19 +162,37 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
+   // get nft in my assets
+   async function getAllNFTs() {
+    const contract = new web3.eth.Contract(contractABI, contractAddress);
+    const balance = await contract.methods.balanceOf(web3.eth.defaultAccount).call();
+    const nfts = [];
+  
+    for (let i = 0; i < balance; i++) {
+      const tokenId = await contract.methods.tokenOfOwnerByIndex(web3.eth.defaultAccount, i).call();
+      const nft = await contract.methods.getNFT(tokenId).call(); // Replace with your own NFT data retrieval function
+      nfts.push(nft);
+    }
+  
+    return nfts;
+  }
+  const isApprovalForAll = async ()=>{
+    setContractInstance(createEthereumContract());
+    return await contract.isApprovalForAll().call();
+  }
   
   useEffect(() => {
     checkIfWalletIsConnect();
     setContractInstance(createEthereumContract());
     createMarketplaceInstance();
     getTraitsFromTokenId(nftId);
-  }, [nftId]);
-  const getTraits = (tokenId) =>{
-    if (traits!=false){
-      console.log(traits);
-      return traits;
-    }
-  }
+  }, []);
+  // const getTraits = (tokenId) =>{
+  //   if (traits!=false){
+  //     console.log(traits);
+  //     return traits;
+  //   }
+  // }
 
   return (
     <Context.Provider
@@ -193,6 +212,10 @@ export const ContextProvider = ({ children }) => {
         contractAddress,
         getTraitsFromTokenId,
         getAccountBalance,
+        getAllNFTs,
+        isApprovalForAll,
+        marketplaceABI,
+        contractABI,
       }}
     >
       {children}

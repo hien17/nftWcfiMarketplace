@@ -4,6 +4,9 @@ import { Context } from "../context/Context.jsx";
 import SingleCard from "./SingleCard";
 import { Box, Select, Text } from "@chakra-ui/react";
 import Modal from "@mui/material/Modal";
+import { useQuery, gql } from '@apollo/client'
+import { marketplaceABI, marketplaceAddress } from "../utils/constantsMarket";
+
 const MarketplaceBody = () => {
   const {
     currentAccount,
@@ -15,25 +18,46 @@ const MarketplaceBody = () => {
     nftId,
     listNFT,
     getListedNFTs,
-    marketplaceAddress,
     getTraitsFromTokenId,
   } = useContext(Context);
+ const [reloadCards, setReloadCards] = useState(false)
+  
+ const [listings, setListings] = useState(false);
+  const GET_ITEM = gql`
+        {
+          tokens(
+            first: 20
+            where: {
+              owner: "${marketplaceAddress}"
+            }
+          ) {
+            id
+            approved
+            tokenId
+            owner
+            creator
+            price
+            traits
+          }
+        }
+    `
+   
+    const { loading, error, data, refetch } = useQuery(GET_ITEM)
 
-  const [listings, setListings] = useState(false);
+useEffect(() => {
+  if(!loading) {
+    setListings(data.tokens.map(token =>{
+      console.log(token);
+      return token;
+    }))
+  }
+},[loading])
 
-  useEffect(() => {
-    getListedNFTs()
-      .then((data) => {
-        setListings(data);
-      })
-      .catch((err) => console.error(err));
-  }, [getListedNFTs]);
-
-  const getListings = (index) => {
-    if (listings != []) {
-      return listings[index];
-    }
-  };
+const getListings = (index) => {
+  if (listings != []) {
+    return listings[index];
+  }
+};
   return (
     <div className="w-screen h-[3364px] bg-black flex flex-col gap-[40px]">
       <Box

@@ -143,7 +143,7 @@ const HomeBody = () => {
                       {currentAccount ? (
                         <>
                           <button className="" onClick={handleMint}>
-                            <p>{"Mint\u00a0with\u00a00.01\u00a0BNB"}</p>
+                            <p>{"Mint\u00a0with\u00a00.001\u00a0BNB"}</p>
                           </button>
                           <Modal
                             open={showModal}
@@ -153,8 +153,10 @@ const HomeBody = () => {
                               sx={{
                                 position: "flex",
                               }}
+                              className=""
                             >
-                              <Box className=" rounded-xl"
+                              <Box
+                                className=" rounded-xl"
                                 sx={{
                                   position: "absolute",
                                   top: "45%",
@@ -168,7 +170,7 @@ const HomeBody = () => {
                                   alignSelf: "flex-start",
                                   padding: 0,
                                   background: "black",
-                                  borderRadius: 2,
+                                  borderRadius: "12px",
                                   boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.25)",
                                   overflow: "hidden",
                                   border: "1px solid",
@@ -177,29 +179,47 @@ const HomeBody = () => {
                                   borderImageSlice: "1",
                                 }}
                               >
-                                <div className="text-white p-[40px] mb-[40px] ">
+                                <div className="text-white bg-black flex flex-col h-full">
                                   {mintedNftDetails ? (
                                     <>
                                       <img
+                                        className="bg-black p-[40px] scale-80"
                                         src={`/Image/Tiers/${mintedNftDetails?.traits}.png`}
                                       />
-                                      <p>Team {mintedNftDetails?.traits}</p>
-                                      <p>
-                                        Rarity{" "}
-                                        {
-                                          findRarityAndValue(
-                                            mintedNftDetails.traits
-                                          ).rarity
-                                        }
-                                      </p>
-                                      <p>
-                                        Estimate{" "}
-                                        {
-                                          findRarityAndValue(
-                                            mintedNftDetails.traits
-                                          ).value
-                                        }
-                                      </p>
+                                      <div
+                                        className="bg-[#0E1114] w-full h-full p-[32px]
+                                      grid grid-cols-2 pb-[16px] gap-4"
+                                      >
+                                        <div className="flex flex-col gap-2">
+                                          <p className="text-slate-500">Team</p>
+                                          <p>{mintedNftDetails?.traits}</p>
+                                        </div>
+                                        <div className="flex flex-col gap-2">
+                                          <div className="text-slate-500">
+                                            Rarity{" "}
+                                          </div>
+                                          <div>
+                                            {
+                                              findRarityAndValue(
+                                                mintedNftDetails.traits
+                                              ).rarity
+                                            }
+                                          </div>
+                                        </div>
+                                        
+                                        <div className="text-slate-500">
+                                          Estimate{" "}
+                                        </div>
+                                        <div>
+                                          {
+                                            findRarityAndValue(
+                                              mintedNftDetails.traits
+                                            ).value
+                                          }
+                                        </div>
+                                      
+                                      </div>
+                                     
                                     </>
                                   ) : (
                                     <Box
@@ -214,6 +234,7 @@ const HomeBody = () => {
                                 </div>
                               </Box>
                               <Box
+                                className=""
                                 sx={{
                                   position: "absolute",
                                   top: "790px",

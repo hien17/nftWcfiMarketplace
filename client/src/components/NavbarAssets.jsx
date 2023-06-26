@@ -14,7 +14,28 @@ import {
 } from "react-router-dom";
 
 const NavbarAssets = () => {
-  const { currentAccount, connectWallet,getAccountBalance } = useContext(Context);
+  const { currentAccount, connectWallet, getAccountBalance } =
+    useContext(Context);
+  // var accountBalance = getAccountBalance();
+  // console.log(accountBalance);
+  const [balance, setBalance] = useState("0.00");
+
+  useEffect(() => {
+    const updateBalance = async () => {
+      if (!currentAccount) {
+        return;
+      }
+      const provider = new ethers.providers.Web3Provider(
+        window.ethereum,
+        "any"
+      );
+      const signer = provider.getSigner();
+      const balance = await signer.getBalance();
+      const bnbBalance = ethers.utils.formatEther(balance);
+      setBalance(parseFloat(bnbBalance).toFixed(2));
+    };
+    updateBalance();
+  }, [currentAccount]);
   return (
     <div className="Navbar text-white flex flex-row justify-between items-center ">
       <Link
@@ -41,7 +62,7 @@ const NavbarAssets = () => {
           </div>
           <div className="flex flex-col">
             <p className="text-left text-slate-500">BUSD</p>
-            <p>{currentAccount ? "200,000.00" : "0"}</p>
+            <p>{currentAccount ? balance : "0"}</p>
           </div>
         </div>
         {currentAccount ? (

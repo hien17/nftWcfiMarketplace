@@ -15,44 +15,24 @@ import {
 
 const NavbarMarketplace = () => {
   const { currentAccount, connectWallet } = useContext(Context);
-//   return (
-//     <div className="Navbar text-white flex flex-row justify-between items-center ">
-//       <Link
-//         to=".."
-//         className="WCFIFooter text-34 font-bold leading-42 text-5xl font-bold text-left"
-//       >
-//         WCFI
-//       </Link>
-//       <div className="text-base font-bold leading-28 flex flex-row items-start p-0 gap-10">
-//         <Link to="../home">Home</Link>
-//         <a
-//           className="bg-gradient-to-r from-teal-200 via-cyan-300 
-//       via-purple-400 to-pink-400 text-transparent 
-//         bg-clip-text "
-//         >
-//           Marketplace
-//         </a>
+  const [balance, setBalance] = useState("0.00");
 
-//         <Link to="../assets">Assets</Link>
-//       </div>
-//       <div>
-//         <div></div>
-//         <button
-//           className="flex flex-row justify-center 
-//       items-center bg-gradient-to-r from-teal-200 
-//       via-cyan-300 via-purple-400 to-pink-400 
-//       text-base font-bold
-//       rounded-2xl border-r-4 border-b-4 py-3 px-6
-//        "
-//         >
-//           <Link to="/home" className="">
-//             Connect Wallet
-//           </Link>
-//         </button>
-//       </div>
-//     </div>
-//   );
-// };
+  useEffect(() => {
+    const updateBalance = async () => {
+      if (!currentAccount) {
+        return;
+      }
+      const provider = new ethers.providers.Web3Provider(
+        window.ethereum,
+        "any"
+      );
+      const signer = provider.getSigner();
+      const balance = await signer.getBalance();
+      const bnbBalance = ethers.utils.formatEther(balance);
+      setBalance(parseFloat(bnbBalance).toFixed(2));
+    };
+    updateBalance();
+  }, [currentAccount]);
 return (
     <div className="Navbar text-white flex flex-row justify-between items-center ">
       <Link
@@ -80,7 +60,7 @@ return (
         </div>
         <div className="flex flex-col">
           <p className="text-left text-slate-500">BUSD</p>
-          <p>{currentAccount ? "200,000.00" : "0"}</p>
+          <p>{currentAccount ? balance : "0"}</p>
         </div>
       </div>
       {currentAccount ? (

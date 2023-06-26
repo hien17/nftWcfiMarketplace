@@ -3,6 +3,11 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import { Navbar, Footer, Introduce, IntroduceImage } from "./components";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { WagmiConfig, createConfig, configureChains } from "wagmi";
+import { publicProvider } from "wagmi/providers/public";
+import { bscTestnet } from "viem/chains";
+import { MoralisProvider } from "react-moralis";
 import {
   BrowserRouter as Router,
   Route,
@@ -14,7 +19,21 @@ import {
 import { LandingPage, HomePage, MarketplacePage, AssetsPage } from "./pages";
 import { ContextProvider } from "./context/Context";
 
+const { publicClient, webSocketPublicClient } = configureChains(
+  [bscTestnet],
+  [publicProvider()]
+);
+const config = createConfig({
+  autoConnect: true,
+  publicClient,
+  webSocketPublicClient,
+});
+
 function App() {
+  const client = new ApolloClient({
+    uri: "https://api.studio.thegraph.com/query/47492/wcfi/version/latest",
+    cache: new InMemoryCache(),
+  });
   // return (
   //   <div className="">
   //     <Navbar></Navbar>
@@ -24,16 +43,22 @@ function App() {
   //   </div>
   // );
   return (
-    <ContextProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/marketplace" element={<MarketplacePage />} />
-          <Route path="/assets" element={<AssetsPage />} />
-        </Routes>
-      </BrowserRouter>
-    </ContextProvider>
+    <MoralisProvider initializeOnMount={false}>
+      <ApolloProvider client={client}>
+        <ContextProvider>
+          <WagmiConfig config={config}>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/home" element={<HomePage />} />
+                <Route path="/marketplace" element={<MarketplacePage />} />
+                <Route path="/assets" element={<AssetsPage />} />
+              </Routes>
+            </BrowserRouter>
+          </WagmiConfig>
+        </ContextProvider>
+      </ApolloProvider>
+    </MoralisProvider>
   );
 }
 

@@ -99,6 +99,7 @@ contract WCMarketplace is ERC721Holder, Ownable {
         _heldTokens.push(tokenId);
 
         emit ListNFT(msg.sender, tokenId, price);
+        _nft.emitListNFT(msg.sender, tokenId, price);
     }
 
     function updateListingNFTPrice(uint256 tokenId, uint256 price) public onlySeller(tokenId) onlyListed(tokenId) {
@@ -107,6 +108,7 @@ contract WCMarketplace is ERC721Holder, Ownable {
         _listings[tokenId].price = price;
 
         emit UpdateListingNFTPrice(tokenId, price);
+        _nft.emitUpdateListingNFTPrice(tokenId, price);
     }
 
     function unlistNFT(uint256 tokenId) public onlySellerOrOwner(tokenId) onlyListed(tokenId) {
@@ -116,6 +118,7 @@ contract WCMarketplace is ERC721Holder, Ownable {
         _removeTokenFromHeldTokens(tokenId);
 
         emit UnlistNFT(msg.sender, tokenId);
+        _nft.emitUnlistNFT(msg.sender, tokenId);
     }
 
     function buyNFT(uint256 tokenId) public payable onlyBuyer(tokenId) onlyListed(tokenId) {
@@ -132,6 +135,7 @@ contract WCMarketplace is ERC721Holder, Ownable {
         _removeTokenFromHeldTokens(tokenId);
 
         emit BuyNFT(msg.sender, _listings[tokenId].seller, tokenId, _listings[tokenId].price);
+        _nft.emitBuyNFT(msg.sender, tokenId, msg.value);
     }
 
     function withdraw() public onlyOwner {
