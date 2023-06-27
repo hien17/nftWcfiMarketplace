@@ -1,16 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Box, Select, Text } from "@chakra-ui/react";
 import { Context } from "../context/Context.jsx";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql} from "@apollo/client";
 import { marketplaceABI, marketplaceAddress } from "../utils/constantsMarket";
 import SingleCard from "./SingleCard";
-import { useContractWrite, usePrepareContractWrite } from "wagmi";
-import { parseEther } from "viem";
+
 
 const AssetBody = () => {
-  const [listingMode, setlistingMode] = useState(true);
-  const { currentAccount, connectWallet, isApprovalForAll } =
-    useContext(Context);
+  const [listingMode, setlistingMode] = useState(false);
+  const { currentAccount, connectWallet, isApprovalForAll } = useContext(Context);
   const [reloadCards, setReloadCards] = useState(false);
   const [listings, setListings] = useState(false);
   const offListingModeChange = () => {
@@ -59,7 +57,7 @@ const AssetBody = () => {
 `;
 var queryItem;
 listingMode ? (queryItem = GET_ITEM) : (queryItem = GET_ITEM2);
-  const { loading, error, data, refetch } = useQuery(queryItem);
+  const { loading, error, data, refetch } = useQuery(queryItem,{variables:listingMode,});
   
   useEffect(() => {
     if (!loading) {
@@ -69,7 +67,8 @@ listingMode ? (queryItem = GET_ITEM) : (queryItem = GET_ITEM2);
         })
       );
     }
-  }, [loading,listingMode]);
+  }, [loading,listingMode,refetch]);
+
   const getListings = (index) => {
     if (listings != []) {
       return listings[index];

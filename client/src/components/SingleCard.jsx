@@ -142,52 +142,6 @@ const SingleCard = ({ listing }) => {
     checkApproval();
   }, [currentAccount, marketplaceAddress]);
 
-  //   const buyNFT = async () => {
-  //     try {
-  //       const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //       const signer = provider.getSigner();
-  //       const marketplaceABI = [
-  //         // Include the buyNFT function from your marketplace contract
-  //         "function buyNFT(uint256 tokenId) public payable onlyBuyer(tokenId) onlyListed(tokenId)",
-  //       ];
-  //       const marketplaceContract = new ethers.Contract(
-  //         marketplaceAddress,
-  //         marketplaceABI,
-  //         signer
-  //       );
-
-  //       // Convert the listing price to Ether (assuming listing.price is in Wei)
-  //       const valueInEther = ethers.utils.formatEther(listing.price);
-  //       console.log(valueInEther);
-  //       // Call the buyNFT function on the marketplace contract
-  //       const transaction = await marketplaceContract.buyNFT(listing.tokenId, {
-  //         value: ethers.utils.parseEther(valueInEther),
-  //       });
-
-  //       // Wait for the transaction to be confirmed
-  //       await transaction.wait();
-
-  //       // Transaction successful
-  //       console.log("NFT purchased successfully");
-  //     } catch (error) {
-  //       console.error("Failed to buy NFT:", error);
-  //     }
-  //   };
-  //   const [isPurchaseSuccessful, setIsPurchaseSuccessful] = useState(false);
-
-  //   const handleBuyNFT = async () => {
-  //     const success = await buyNFT();
-  //     setIsPurchaseSuccessful(success);
-  //   };
-
-  //   useEffect(() => {
-  //     if (isPurchaseSuccessful) {
-  //       // Perform actions when purchase is successful
-  //       console.log("NFT purchase is successful");
-  //     }
-  //   }, [isPurchaseSuccessful]);
-  //  console.log(isPurchaseSuccessful);
-
   const [enteredPrice, setEnteredPrice] = useState("");
   const [receivedAmount, setReceivedAmount] = useState("");
 
@@ -197,37 +151,6 @@ const SingleCard = ({ listing }) => {
     const received = (parseFloat(price) * 0.95).toFixed(4);
     setReceivedAmount(received);
   };
-  // useEffect(()=>{setEnteredPrice(enteredPrice)},[enteredPrice])
-
-  const useListNFT = (tokenId, price) => {
-    const { config } = usePrepareContractWrite({
-      address: marketplaceAddress,
-      abi: marketplaceABI,
-      functionName: "listNFT",
-      args: [tokenId, price],
-      value: parseEther("0"),
-    });
-    const {
-      data: listNFTs,
-      isLoading: isLoadingListNFTs,
-      write: writeListNFTs,
-    } = useContractWrite(config);
-    return { listNFTs, isLoadingListNFTs, writeListNFTs };
-  };
-
-  // const tokenId = listing.tokenId;
-  // const price = enteredPrice;
-  const { listNFTs, isLoadingListNFTs, writeListNFTs } = useListNFT(
-    listing.tokenId,
-    enteredPrice * 10 ** 18
-  );
-
-  const handleListNFTs = () => {
-    writeListNFTs?.();
-  };
-  // console.log(useListNFT());
-  // console.log(marketplaceABI);
-  // console.log(enteredPrice);
 
   useEffect(() => {
     const enableWeb3Async = async () => {
@@ -244,7 +167,7 @@ const SingleCard = ({ listing }) => {
   const closeAllFunc = () => {
     setTimeout(() => {
       window.location.reload();
-    }, 3000);
+    }, 4000);
   };
 
   //listNFT

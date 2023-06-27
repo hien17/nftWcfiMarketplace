@@ -50,7 +50,7 @@ contract WCMarketplace is ERC721Holder, Ownable {
     }
 
     modifier onlySellerOrOwner(uint256 tokenId) {
-        require(_listings[tokenId].seller == msg.sender || owner() == msg.sender, "Only seller or owner can perform this action");
+        require(_listings[tokenId].seller == msg.sender || _nft.ownerOf(tokenId) == msg.sender, "Only seller or owner can perform this action");
         _;
     }
 
@@ -102,7 +102,7 @@ contract WCMarketplace is ERC721Holder, Ownable {
         _nft.emitListNFT(msg.sender, tokenId, price);
     }
 
-    function updateListingNFTPrice(uint256 tokenId, uint256 price) public onlySeller(tokenId) onlyListed(tokenId) {
+    function updateListingNFTPrice(uint256 tokenId, uint256 price) public onlySellerOrOwner(tokenId) onlyListed(tokenId) {
         require(price > 0, "Price cannot be set to zero");
 
         _listings[tokenId].price = price;

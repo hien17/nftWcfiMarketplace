@@ -1,9 +1,9 @@
 import React from "react";
 import "../App.css";
 const images = [];
-const Tier = ({ tierNumber, tierArray,key }) => {
+const Tier = ({ tierNumber, tierArray }) => {
   return (
-    <div key={key}>
+    <div key={tierNumber}>
       <div className="p-[40px] flex flex-col flex-start w-full">
         <div className=" pb-[24px] text-left ">
           <a
@@ -21,8 +21,8 @@ const Tier = ({ tierNumber, tierArray,key }) => {
         </div>
         <div className="gap-[24px] pb-[24px]">
           {tierArray.map((tier, index) => (
-            <div>
-              <div key={index} className="h-[42px] ">
+            <div key={`${tierNumber}-${index}`}>
+              <div className="h-[42px] ">
                 <div className="flex flex-row w-full relative">
                   <div className="max-h-[40px] max-w-[40px] pr-[16px] flex-row justify-start">
                     <img

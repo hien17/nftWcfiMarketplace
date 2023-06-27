@@ -31,7 +31,7 @@ const config = createConfig({
 
 function App() {
   const client = new ApolloClient({
-    uri: "https://api.studio.thegraph.com/query/47492/wcfi/version/latest",
+    uri: "https://api.studio.thegraph.com/query/47492/wc/version/latest",
     cache: new InMemoryCache(),
   });
   // return (

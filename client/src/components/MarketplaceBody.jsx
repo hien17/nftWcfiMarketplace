@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import Information from "./Information";
 import { Context } from "../context/Context.jsx";
 import SingleCard from "./SingleCard";
 import { Box, Select, Text } from "@chakra-ui/react";
@@ -8,20 +7,6 @@ import { useQuery, gql } from '@apollo/client'
 import { marketplaceABI, marketplaceAddress } from "../utils/constantsMarket";
 
 const MarketplaceBody = () => {
-  const {
-    currentAccount,
-    connectWallet,
-    handleMint,
-    showModal,
-    setShowModal,
-    mintedNftDetails,
-    nftId,
-    listNFT,
-    getListedNFTs,
-    getTraitsFromTokenId,
-  } = useContext(Context);
- const [reloadCards, setReloadCards] = useState(false)
-  
  const [listings, setListings] = useState(false);
   const GET_ITEM = gql`
         {
@@ -51,7 +36,7 @@ useEffect(() => {
       return token;
     }))
   }
-},[loading])
+},[loading,refetch])
 
 const getListings = (index) => {
   if (listings != []) {

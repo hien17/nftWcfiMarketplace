@@ -9,5 +9,4 @@ export { default as HomeBody } from "./HomeBody";
 export { default as Tier} from "./Tier";
 export { default as MarketplaceBody} from "./MarketplaceBody";
 export { default as AssetBody } from "./AssetBody";
-export { default as Information } from "./Information";
 export { default as SingleCard } from "./SingleCard";

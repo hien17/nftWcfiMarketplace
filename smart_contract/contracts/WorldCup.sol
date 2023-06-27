@@ -21,7 +21,7 @@ contract WorldCup is ERC721, Ownable {
     186, 280, 280, 373, 466, 466, 466, 466, 559, 746, 746, 932, 932, 1864];
     bool public isPaused = false;
 
-    event Mint(uint256 _date,address indexed _from,address indexed _to,uint256 indexed _tokenId);
+    event Mint(uint256 _date,address indexed _from,address indexed _to,uint256 indexed _tokenId, string traits);
     event TransferDetail(uint256 _date,address indexed _from,address indexed _to,uint256 indexed _tokenId);
     event Withdraw(address indexed account, uint256 amount);
 
@@ -93,7 +93,7 @@ contract WorldCup is ERC721, Ownable {
         _tokenIdCounter.increment();
         mintCounts[msg.sender]++;
         totalMintCounts++;
-        emit Mint(block.timestamp, address(0), msg.sender, tokenId);
+        emit Mint(block.timestamp, address(0), msg.sender, tokenId, trait);
     }
 
    /**

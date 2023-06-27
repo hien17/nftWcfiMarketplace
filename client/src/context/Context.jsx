@@ -4,12 +4,9 @@ import { contractABI, contractAddress } from "../utils/constants";
 import { marketplaceABI, marketplaceAddress } from "../utils/constantsMarket";
 
 export const Context = React.createContext();
-
 const { ethereum } = window;
-
 const createEthereumContract = () => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
-
   const signer = provider.getSigner();
   const transactionsContract = new ethers.Contract(
     contractAddress,
@@ -20,14 +17,12 @@ const createEthereumContract = () => {
 };
 const createMarketplaceContract = () => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
-
   const signer = provider.getSigner();
   const Contract = new ethers.Contract(
     marketplaceAddress,
     marketplaceABI,
     signer
   );
-
   return Contract;
 };
 
@@ -37,17 +32,15 @@ export const ContextProvider = ({ children }) => {
   const [showModal, setShowModal] = useState(false);
   const [mintedNftDetails, setMintedNftDetails] = useState(null);
   const [nftId, setNftId] = useState(0);
+
   const checkIfWalletIsConnect = async () => {
     try {
       if (!ethereum) return alert("Please install MetaMask.");
-
       const accounts = await ethereum.request({ method: "eth_accounts" });
-
       if (accounts.length) {
         setCurrentAccount(accounts[0]);
       } else {
         console.log("No accounts found");
-        
       }
     } catch (error) {
       console.log(error);
@@ -57,16 +50,13 @@ export const ContextProvider = ({ children }) => {
   const connectWallet = async () => {
     try {
       if (!ethereum) return alert("Please install MetaMask.");
-
       const accounts = await ethereum.request({
         method: "eth_requestAccounts",
       });
-
       setCurrentAccount(accounts[0]);
       window.location.reload();
     } catch (error) {
       console.log(error);
-
       throw new Error("No ethereum object");
     }
   };
@@ -74,7 +64,6 @@ export const ContextProvider = ({ children }) => {
     console.log(`New NFT minted with tokenId: ${tokenId}`);
     console.log(`From: ${from}`);
     console.log(`To: ${to}`);
-
     // Get the metadata for the newly minted NFT
     const metadata = await contractInstance.getMetadata(tokenId);
     console.log(`Metadata for tokenId ${tokenId}:`, metadata);
@@ -88,7 +77,6 @@ export const ContextProvider = ({ children }) => {
       });
       // Add event listener for Mint event
       contractInstance.on("Mint", handleMintEvent);
-
       // Remove event listener on unmount
       return () => {
         contractInstance.off("Mint", handleMintEvent);
@@ -108,10 +96,9 @@ export const ContextProvider = ({ children }) => {
     setShowModal(true);
   };
   const [marketplaceContract, setMarketplaceContract] = useState(null);
-
-  const createMarketplaceInstance =  () => {
+  const createMarketplaceInstance = () => {
     try {
-     setMarketplaceContract(createMarketplaceContract());
+      setMarketplaceContract(createMarketplaceContract());
     } catch (error) {
       console.log(error);
     }
@@ -120,10 +107,8 @@ export const ContextProvider = ({ children }) => {
   const listNFT = async (tokenId, price) => {
     try {
       const listingPrice = await marketplaceContract.getListingPrice();
-
       // Approve the marketplace contract to transfer the NFT
       await contractInstance.approve(marketplaceAddress, tokenId);
-
       // List the NFT for sale on the marketplace
       await marketplaceContract.listNFT(tokenId, price, {
         value: listingPrice,
@@ -143,14 +128,13 @@ export const ContextProvider = ({ children }) => {
   };
   // const [traits,setTraits] = useState([]);
   const getTraitsFromTokenId = async (tokenId) => {
-    try{
-        const metadata = await contractInstance.getMetadata(tokenId);
-        return metadata.traits;
-    }
-    catch (error){
+    try {
+      const metadata = await contractInstance.getMetadata(tokenId);
+      return metadata.traits;
+    } catch (error) {
       console.log(error);
     }
-  }
+  };
   const getAccountBalance = async () => {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -162,25 +146,29 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
-   // get nft in my assets
-   async function getAllNFTs() {
+  // get nft in my assets
+  async function getAllNFTs() {
     const contract = new web3.eth.Contract(contractABI, contractAddress);
-    const balance = await contract.methods.balanceOf(web3.eth.defaultAccount).call();
+    const balance = await contract.methods
+      .balanceOf(web3.eth.defaultAccount)
+      .call();
     const nfts = [];
-  
+
     for (let i = 0; i < balance; i++) {
-      const tokenId = await contract.methods.tokenOfOwnerByIndex(web3.eth.defaultAccount, i).call();
+      const tokenId = await contract.methods
+        .tokenOfOwnerByIndex(web3.eth.defaultAccount, i)
+        .call();
       const nft = await contract.methods.getNFT(tokenId).call(); // Replace with your own NFT data retrieval function
       nfts.push(nft);
     }
-  
+
     return nfts;
   }
-  const isApprovalForAll = async ()=>{
+  const isApprovalForAll = async () => {
     setContractInstance(createEthereumContract());
     return await contract.isApprovalForAll().call();
-  }
-  
+  };
+
   useEffect(() => {
     checkIfWalletIsConnect();
     setContractInstance(createEthereumContract());
