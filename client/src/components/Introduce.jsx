@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Link, NavLink, Routes } from "react-rou
   
 const Introduce = () => {
   return (
-    <div className="flex flex-col max-w-3xl justify-items-start p-0 gap-16 w-796 h-552 absolute left-8 top-80">
+    <div className="flex flex-col max-w-3xl justify-items-start p-0 gap-16 w-796 h-552 absolute left-8 top-80 text-white bg-black z-20">
       <div className="flex flex-col text-left text-8xl w-full 
       font-bold leading-snug self-stretch">
         <div>Build Your </div>

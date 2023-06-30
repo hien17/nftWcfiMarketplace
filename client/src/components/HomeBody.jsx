@@ -3,10 +3,15 @@ import { colors } from "../constants/colors";
 import HomeImage from "/Image/HomeImage.png";
 import { Context } from "../context/Context.jsx";
 import { shortenAddress } from "../utils/shortenAddress";
-import { AiOutlineQuestionCircle } from "react-icons/Ai";
+import { AiOutlineQuestionCircle } from "react-icons/ai";
 import Tier from "./Tier";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/system/Box";
+import { useMoralis, useWeb3Contract } from "react-moralis";
+import { useQuery, gql } from '@apollo/client'
+import { marketplaceABI, marketplaceAddress } from "../utils/constantsMarket";
+import { contractABI, contractAddress } from "../utils/constants";
+import Moralis from "moralis-v1";
 const tier1Array = [
   { name: "Brazil", minted: "84", rarity: "0.08%", value: "≈$96,000" },
   { name: "France", minted: "104", rarity: "0.10%", value: "≈$77,538" },
@@ -69,16 +74,40 @@ import {
   Routes,
 } from "react-router-dom";
 
+
 const HomeBody = () => {
   const {
     currentAccount,
     connectWallet,
     handleMint,
+    handleMintNFT,
     showModal,
     setShowModal,
     mintedNftDetails,
-    nftId,
+    txHash,
+    
   } = useContext(Context);
+  
+  const {enableWeb3} = useMoralis();
+  useEffect(() => {
+    const enableWeb3Async = async () => {
+      try {
+        await enableWeb3();
+        // Web3 is now enabled and ready to use
+      } catch (error) {
+        console.error("Error enabling web3:", error);
+      }
+    };
+
+    enableWeb3Async();
+  }, []);
+  console.log(txHash);
+  const viewOnBscscan = () => {
+      window.open(`https://testnet.bscscan.com/tx/${txHash}`, "_blank");
+  };
+  const viewContract = () => {
+    window.open(`https://testnet.bscscan.com/address/${contractAddress}`, "_blank");
+};
   return (
     <div className="bg-black w-full mx-auto flex justify-center">
       <div
@@ -91,14 +120,15 @@ const HomeBody = () => {
             <div className="text-left w-[630px]">
               <p className="text-sm text-slate-500">Total reward</p>
               <p className="text-4xl">$ 8.064.000</p>
-              <a
+              <button
                 className="text-sm bg-gradient-to-r 
               from-teal-200 via-cyan-300 via-purple-400
                to-pink-400 text-transparent 
                bg-clip-text"
+               onClick={viewContract}
               >
                 View Contract
-              </a>
+              </button>
             </div>
             <div className="text-left w-[384px]">
               <p className="text-sm text-slate-500"> Participant</p>
@@ -142,7 +172,7 @@ const HomeBody = () => {
                     >
                       {currentAccount ? (
                         <>
-                          <button className="" onClick={handleMint}>
+                          <button className="" onClick={handleMintNFT}>
                             <p>{"Mint\u00a0with\u00a00.001\u00a0BNB"}</p>
                           </button>
                           <Modal
@@ -230,7 +260,10 @@ const HomeBody = () => {
                                 <button
                                   sx={{color: "#FFFFFF",fontSize: "18px",fontWeight: "bold",textTransform: "uppercase",cursor: "pointer",height: "56px",width: "464px",border: "none",background: "transparent","&:hover": {  color: "#7CC2F6",},
                                   }}
-                                  onClick={() => setShowModal(false)}
+                                  onClick={() => {
+                                    viewOnBscscan();
+                                    // window.open(`https://testnet.bscscan.com/tx/${txHash}`, "_blank");
+                                  }}
                                 >
                                   View On BSCscan
                                 </button>

@@ -10,3 +10,6 @@ export { default as Tier} from "./Tier";
 export { default as MarketplaceBody} from "./MarketplaceBody";
 export { default as AssetBody } from "./AssetBody";
 export { default as SingleCard } from "./SingleCard";
+export {default as tier1Array,tier2Array
+,tier3Array,tier4Array,tierNumber,findRarity,findValue
+,findRarityAndValue,getTier} from "./Data";

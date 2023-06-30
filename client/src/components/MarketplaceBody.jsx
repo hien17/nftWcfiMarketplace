@@ -8,7 +8,7 @@ import { marketplaceABI, marketplaceAddress } from "../utils/constantsMarket";
 
 const MarketplaceBody = () => {
  const [listings, setListings] = useState(false);
-  const GET_ITEM = gql`
+  const GET_ITEM_MK = gql`
         {
           tokens(
             first: 20
@@ -27,22 +27,23 @@ const MarketplaceBody = () => {
         }
     `
    
-    const { loading, error, data, refetch } = useQuery(GET_ITEM)
-
+    const { loading, error, data, refetch } = useQuery(GET_ITEM_MK)
+ 
 useEffect(() => {
   if(!loading) {
     setListings(data.tokens.map(token =>{
-      console.log(token);
       return token;
     }))
   }
-},[loading,refetch])
+},[loading])
 
 const getListings = (index) => {
   if (listings != []) {
     return listings[index];
   }
 };
+
+ 
   return (
     <div className="w-screen h-[3364px] bg-black flex flex-col gap-[40px]">
       <Box
