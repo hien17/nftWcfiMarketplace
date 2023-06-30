@@ -10,7 +10,7 @@ import { contractABI, contractAddress } from "../utils/constants.js";
 // import { parseEther } from "viem";
 import { useMoralis, useWeb3Contract } from "react-moralis";
 import { toast } from 'react-toastify'; 
-import {findRarity,findValue,getTier} from "./Data";
+import {findRarity,findValue,getTier,convertTierToColor,convertTierToBorderColor} from "./Data";
 
 const SingleCard = ({ listing }) => {
   const {
@@ -23,20 +23,6 @@ const SingleCard = ({ listing }) => {
   const { user, enableWeb3, isWeb3Enabled, 
     account, isWeb3EnableLoading } = useMoralis();
 
-  var convertTierToColor = {
-    "Tier 1":
-      "bg-gradient-to-r from-teal-200 via-cyan-300 via-purple-400 to-pink-400 text-transparent bg-clip-text",
-    "Tier 2": "text-amber-400",
-    "Tier 3": "text-blue-600",
-    "Tier 4": "text-slate-400",
-  };
-  var convertTierToBorderColor = {
-    "Tier 1":
-      "bg-gradient-to-r p-[2px] from-[#80E8DD] via-[#7CC2F6] to-[#D855A6]",
-    "Tier 2": "bg-amber-400 p-[2px]",
-    "Tier 3": "bg-blue-600 p-[2px]",
-    "Tier 4": "bg-slate-400 p-[2px]",
-  };
   const [isApproved, setIsApproved] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showModalSell, setShowModalSell] = useState(false);
@@ -108,7 +94,9 @@ const SingleCard = ({ listing }) => {
       await listNFT({
         onSuccess: (tx) => tx.wait().then(() =>  {
           console.log("LIST NFT SUCCESSFULL !");
-          window.location.reload();
+          setTimeout(() =>{
+            window.location.reload();
+          }, 2000);
         }),
         onError: (error) => console.log(error),
       });
@@ -134,7 +122,9 @@ const SingleCard = ({ listing }) => {
       await unlistNFT({
         onSuccess: (tx) => tx.wait().then(() =>  {
           console.log("UNLIST NFT SUCCESSFULL !");
-          window.location.reload();
+          setTimeout(() =>{
+            window.location.reload();
+          }, 2000);
         }),
         onError: (error) => console.log(error),
       });
@@ -161,7 +151,9 @@ const SingleCard = ({ listing }) => {
       await buyNFT({
         onSuccess: (tx) => tx.wait().then(() =>  {
           console.log("BUY NFT SUCCESSFULL !");
-          window.location.reload();
+          setTimeout(() =>{
+            window.location.reload();
+          }, 2000);
         }),
         onError: (error) => console.log(error),
       });
@@ -190,7 +182,9 @@ const SingleCard = ({ listing }) => {
       await updateListing({
         onSuccess: (tx) => tx.wait().then(() =>  {
           console.log("UPDATE PRICE SUCCESSFULL !");
-          window.location.reload();
+          setTimeout(() =>{
+            window.location.reload();
+          }, 2000);
         }),
         onError: (error) => console.log(error),
       });
@@ -214,7 +208,9 @@ const SingleCard = ({ listing }) => {
       await setApprovalForAll({
         onSuccess: (tx) => tx.wait().then(() =>  {
           console.log("APPROVE SUCCESSFULL !");
-          window.location.reload();
+          setTimeout(() =>{
+            window.location.reload();
+          }, 2000);
         }),
         onError: (error) => console.log(error),
       });

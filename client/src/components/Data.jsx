@@ -88,6 +88,21 @@ export const getTier = (traitName) => {
 
   return null;
 };
+
+export const convertTierToColor = {
+  "Tier 1":
+    "bg-gradient-to-r from-teal-200 via-cyan-300 via-purple-400 to-pink-400 text-transparent bg-clip-text",
+  "Tier 2": "text-amber-400",
+  "Tier 3": "text-blue-600",
+  "Tier 4": "text-slate-400",
+};
+export const convertTierToBorderColor = {
+  "Tier 1":
+    "bg-gradient-to-r p-[2px] from-[#80E8DD] via-[#7CC2F6] to-[#D855A6]",
+  "Tier 2": "bg-amber-400 p-[2px]",
+  "Tier 3": "bg-blue-600 p-[2px]",
+  "Tier 4": "bg-slate-400 p-[2px]",
+};
 export default {
   tier1Array,
   tier2Array,
@@ -98,4 +113,6 @@ export default {
   findValue,
   findRarityAndValue,
   getTier,
+  convertTierToBorderColor,
+  convertTierToColor,
 };
