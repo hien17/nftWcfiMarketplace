@@ -1,12 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Context } from "../context/Context.jsx";
-import SingleCard from "./SingleCard";
+import { Context } from "../../context/Context.jsx";
+import SingleCard from "../SingleCard.jsx";
 import { Box, Select, Text } from "@chakra-ui/react";
 import Modal from "@mui/material/Modal";
 import { useQuery, gql } from '@apollo/client'
-import { marketplaceABI, marketplaceAddress } from "../utils/constantsMarket";
-
+import { marketplaceABI, marketplaceAddress } from "../../utils/constantsMarket.js";
+import { ToastContainer, toast } from "react-toastify";
 const MarketplaceBody = () => {
+  const { currentAccount, connectWallet, 
+    isApprovalForAll,showToastPending,showToastSuccess } =
+    useContext(Context);
  const [listings, setListings] = useState(false);
   const GET_ITEM_MK = gql`
         {
@@ -102,6 +105,7 @@ const getListings = (index) => {
           </button>
         </div>
       </Box>
+      <ToastContainer/>
       {/* //wrap of items */}
       <Box
         className="grid grid-cols-4 gap-4 

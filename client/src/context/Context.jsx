@@ -4,8 +4,11 @@ import { contractABI, contractAddress } from "../utils/constants";
 import { marketplaceABI, marketplaceAddress } from "../utils/constantsMarket";
 import { useMoralis, useWeb3Contract } from "react-moralis";
 import { useQuery, gql } from '@apollo/client'
-// import { useHistory } from 'react-router-dom';
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "../App.css";
+import { PiSpinnerGap } from "react-icons/Pi";
+import { AiOutlineCheckCircle } from "react-icons/ai";
 export const Context = React.createContext();
 const { ethereum } = window;
 const createEthereumContract = () => {
@@ -69,23 +72,6 @@ export const ContextProvider = ({ children }) => {
 };
 
   
-  // const handleMint = async () => {
-  //   try {
-  //     await contractInstance.safeMint({
-  //       value: ethers.utils.parseEther("0.0001"),
-  //     });
-  //     // Add event listener for Mint event
-  //     contractInstance.on("Mint", handleMintEvent);
-  //     // Remove event listener on unmount
-  //     return () => {
-  //       contractInstance.off("Mint", handleMintEvent);
-  //       handleShowModal(tokenId);
-  //     };
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  //mintNFT
   const {
     runContractFunction: mintNFT,
     data: dataMintNFT,
@@ -170,8 +156,12 @@ export const ContextProvider = ({ children }) => {
   // const [traits,setTraits] = useState([]);
   const getTraitsFromTokenId = async (tokenId) => {
     try {
-      const metadata = await contractInstance.getMetadata(tokenId);
-      return metadata.traits;
+      if (contractInstance) {
+        const metadata = await contractInstance.getMetadata(tokenId);
+        return metadata.traits;
+      } else {
+        console.log('Contract instance is not initialized.');
+      }
     } catch (error) {
       console.log(error);
     }
@@ -272,6 +262,72 @@ export const ContextProvider = ({ children }) => {
   //     return listings[index];
   //   }
   // };
+  const showToastPending = () => {
+    const toastContentPending = (
+      <div className="flex flex-row ">
+        <PiSpinnerGap className="animate-spin mr-[20px] mt-[4px] w-[18px] h-[18px]" />
+        <div>Transaction Pending...</div>
+      </div>
+    );
+
+    toast(toastContentPending, {
+      position: "top-right",
+      autoClose: false,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      style: {
+        background: "#191D24",
+        color: "#fff",
+        fontSize: "14px",
+        width: "466px",
+        right: "260px",
+        top: "108px",
+        padding: "24px",
+        borderRadius: "16px",
+      },
+    });
+  };
+
+  const showToastSuccess = () => {
+    toast.dismiss();
+    const toastContent = (
+      <div className="flex flex-col">
+        <div className="flex flex-row">
+          <AiOutlineCheckCircle className="toastSuccess mr-[20px] mt-[4px] w-[18px] h-[18px] " />
+          <div>Transaction Success</div>
+        </div>
+        <div className="w-[196px]">
+          <button className="relative bg-gradient-to-r from-teal-200 via-cyan-300 via-purple-400 to-pink-400 text-transparent bg-clip-text text-left pl-[16px] pt-[16px]">
+            View on BscScan
+            <span className="absolute bottom-0 left-[16px] w-[178px] h-[2px] bg-gradient-to-r from-teal-200 via-cyan-300 via-purple-400 to-pink-400 "></span>
+          </button>
+        </div>
+      </div>
+    );
+
+    toast(toastContent, {
+      position: "top-right",
+      autoClose: 4000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      style: {
+        background: "#191D24",
+        color: "#fff",
+        fontSize: "14px",
+        width: "466px",
+        right: "260px",
+        top: "108px",
+        padding: "24px",
+        borderRadius: "16px",
+      },
+    });
+  };
 
   return (
     <Context.Provider
@@ -299,6 +355,8 @@ export const ContextProvider = ({ children }) => {
         contractABI,
         navigateToBscScan,
         txHash,
+        showToastPending,
+        showToastSuccess,
       }}
     >
       {children}

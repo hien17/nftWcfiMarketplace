@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import "../App.css";
+import "../../App.css";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import BUSD from "/Image/BUSD.png";
-import { Context } from "../context/Context.jsx";
-import { shortenAddress } from "../utils/shortenAddress";
+import { Context } from "../../context/Context.jsx";
+import { shortenAddress } from "../../utils/shortenAddress";
 import {
   BrowserRouter as Router,
   Route,

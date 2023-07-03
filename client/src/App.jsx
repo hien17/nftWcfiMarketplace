@@ -8,6 +8,8 @@ import { WagmiConfig, createConfig, configureChains } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import { bscTestnet } from "viem/chains";
 import { MoralisProvider } from "react-moralis";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {
   BrowserRouter as Router,
   Route,

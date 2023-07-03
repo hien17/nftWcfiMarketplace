@@ -1,21 +1,24 @@
 import React, { useEffect, useState, useContext } from "react";
-import { colors } from "../constants/colors";
+import { colors } from "../../constants/colors";
 import HomeImage from "/Image/HomeImage.png";
-import { Context } from "../context/Context.jsx";
-import { shortenAddress } from "../utils/shortenAddress";
+import { Context } from "../../context/Context.jsx";
+import { shortenAddress } from "../../utils/shortenAddress";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
-import Tier from "./Tier";
+import Tier from "../Tier";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/system/Box";
 import { useMoralis, useWeb3Contract } from "react-moralis";
-import { useQuery, gql } from '@apollo/client'
-import { marketplaceABI, marketplaceAddress } from "../utils/constantsMarket";
-import { contractABI, contractAddress } from "../utils/constants";
+import { useQuery, gql } from "@apollo/client";
+import { marketplaceABI, marketplaceAddress } from "../../utils/constantsMarket";
+import { contractABI, contractAddress } from "../../utils/constants";
 import Moralis from "moralis-v1";
-import {findRarity,findValue,getTier,
-  findRarityAndValue,tier1Array,tier2Array,
-tier3Array,tier4Array} from "./Data";
-
+import {
+  findRarityAndValue,
+  tier1Array,
+  tier2Array,
+  tier3Array,
+  tier4Array,
+} from "../Data";
 
 import {
   BrowserRouter as Router,
@@ -25,21 +28,18 @@ import {
   Routes,
 } from "react-router-dom";
 
-
 const HomeBody = () => {
   const {
     currentAccount,
     connectWallet,
-    handleMint,
     handleMintNFT,
     showModal,
     setShowModal,
     mintedNftDetails,
     txHash,
-    
   } = useContext(Context);
-  
-  const {enableWeb3} = useMoralis();
+
+  const { enableWeb3 } = useMoralis();
   useEffect(() => {
     const enableWeb3Async = async () => {
       try {
@@ -52,13 +52,15 @@ const HomeBody = () => {
 
     enableWeb3Async();
   }, []);
-  console.log(txHash);
   const viewOnBscscan = () => {
-      window.open(`https://testnet.bscscan.com/tx/${txHash}`, "_blank");
+    window.open(`https://testnet.bscscan.com/tx/${txHash}`, "_blank");
   };
   const viewContract = () => {
-    window.open(`https://testnet.bscscan.com/address/${contractAddress}`, "_blank");
-};
+    window.open(
+      `https://testnet.bscscan.com/address/${contractAddress}`,
+      "_blank"
+    );
+  };
   return (
     <div className="bg-black w-full mx-auto flex justify-center">
       <div
@@ -76,7 +78,7 @@ const HomeBody = () => {
               from-teal-200 via-cyan-300 via-purple-400
                to-pink-400 text-transparent 
                bg-clip-text"
-               onClick={viewContract}
+                onClick={viewContract}
               >
                 View Contract
               </button>
@@ -138,8 +140,26 @@ const HomeBody = () => {
                             >
                               <Box
                                 className=" rounded-xl"
-                                sx={{position: "absolute",top: "45%",left: "50%",transform: "translate(-50%, -50%)",width: "464px",height: "628px",display: "flex",flexDirection: "column",alignItems: "flex-start",alignSelf: "flex-start",padding: 0,background: "black",borderRadius: "12px",boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.25)",overflow: "hidden",border: "1px solid",borderImageSource:
-                                    "linear-gradient(102.88deg, #80E8DD 10.19%, #7CC2F6 43.04%, #AF81E4 72%, #D855A6 93.18%)",borderImageSlice: "1",
+                                sx={{
+                                  position: "absolute",
+                                  top: "45%",
+                                  left: "50%",
+                                  transform: "translate(-50%, -50%)",
+                                  width: "464px",
+                                  height: "628px",
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  alignItems: "flex-start",
+                                  alignSelf: "flex-start",
+                                  padding: 0,
+                                  background: "black",
+                                  borderRadius: "12px",
+                                  boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.25)",
+                                  overflow: "hidden",
+                                  border: "1px solid",
+                                  borderImageSource:
+                                    "linear-gradient(102.88deg, #80E8DD 10.19%, #7CC2F6 43.04%, #AF81E4 72%, #D855A6 93.18%)",
+                                  borderImageSlice: "1",
                                 }}
                               >
                                 <div className="text-white bg-black flex flex-col h-full">
@@ -169,7 +189,7 @@ const HomeBody = () => {
                                             }
                                           </div>
                                         </div>
-                                        
+
                                         <div className="text-slate-500">
                                           Estimate{" "}
                                         </div>
@@ -180,13 +200,15 @@ const HomeBody = () => {
                                             ).value
                                           }
                                         </div>
-                                      
                                       </div>
-                                     
                                     </>
                                   ) : (
                                     <Box
-                                      sx={{width: 200,height: 200,background: "#232323",borderRadius: 12,
+                                      sx={{
+                                        width: 200,
+                                        height: 200,
+                                        background: "#232323",
+                                        borderRadius: 12,
                                       }}
                                     />
                                   )}
@@ -194,9 +216,38 @@ const HomeBody = () => {
                               </Box>
                               <Box
                                 className=""
-                                sx={{position: "absolute",top: "790px",left: "50%",transform: "translateX(-50%)",display: "flex",flexDirection: "row",justifyContent: "center",alignItems: "center",padding: "16px 24px",gap: 8,width: 464,height: 56, background:
-                                    "linear-gradient(102.88deg, #80E8DD 10.19%, #7CC2F6 43.04%, #AF81E4 72%, #D855A6 93.18%)",border: "2px solid #080A0C",boxShadow: "4px 4px 0px #FFFFFF",borderRadius: "12px",flex: "none",alignSelf: "flex-end",flexGrow: 0,color: "#FFFFFF", fontSize: "18px", fontWeight: "bold", textTransform: "uppercase", cursor: "pointer",marginTop: "0px", "&:hover": {background:
-                                      "linear-gradient(102.88deg, #7CC2F6 10.19%, #80E8DD 43.04%, #D855A6 72%, #AF81E4 93.18%)",boxShadow: "2px 2px 0px #FFFFFF",},
+                                sx={{
+                                  position: "absolute",
+                                  top: "790px",
+                                  left: "50%",
+                                  transform: "translateX(-50%)",
+                                  display: "flex",
+                                  flexDirection: "row",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  padding: "16px 24px",
+                                  gap: 8,
+                                  width: 464,
+                                  height: 56,
+                                  background:
+                                    "linear-gradient(102.88deg, #80E8DD 10.19%, #7CC2F6 43.04%, #AF81E4 72%, #D855A6 93.18%)",
+                                  border: "2px solid #080A0C",
+                                  boxShadow: "4px 4px 0px #FFFFFF",
+                                  borderRadius: "12px",
+                                  flex: "none",
+                                  alignSelf: "flex-end",
+                                  flexGrow: 0,
+                                  color: "#FFFFFF",
+                                  fontSize: "18px",
+                                  fontWeight: "bold",
+                                  textTransform: "uppercase",
+                                  cursor: "pointer",
+                                  marginTop: "0px",
+                                  "&:hover": {
+                                    background:
+                                      "linear-gradient(102.88deg, #7CC2F6 10.19%, #80E8DD 43.04%, #D855A6 72%, #AF81E4 93.18%)",
+                                    boxShadow: "2px 2px 0px #FFFFFF",
+                                  },
                                 }}
                               >
                                 <button onClick={() => setShowModal(false)}>
@@ -204,12 +255,48 @@ const HomeBody = () => {
                                 </button>
                               </Box>
                               <Box
-                                sx={{position: "absolute",top: "874px",left: "50%",transform: "translateX(-50%)",display: "flex",flexDirection: "row",justifyContent: "center",alignItems: "center",padding: "16px 24px",gap: 8,width: 464, height: 56, background: "#0E1114", borderRadius: "12px",flex: "none",alignSelf: "flex-end",flexGrow: 0,color: "#FFFFFF",fontSize: "18px", fontWeight: "bold", textTransform: "uppercase", cursor: "pointer",marginTop: "0px", border: "1px solid",borderImageSource:
-                                    "linear-gradient(102.88deg, #80E8DD 10.19%, #7CC2F6 43.04%, #AF81E4 72%, #D855A6 93.18%)",borderImageSlice: "1",
+                                sx={{
+                                  position: "absolute",
+                                  top: "874px",
+                                  left: "50%",
+                                  transform: "translateX(-50%)",
+                                  display: "flex",
+                                  flexDirection: "row",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  padding: "16px 24px",
+                                  gap: 8,
+                                  width: 464,
+                                  height: 56,
+                                  background: "#0E1114",
+                                  borderRadius: "12px",
+                                  flex: "none",
+                                  alignSelf: "flex-end",
+                                  flexGrow: 0,
+                                  color: "#FFFFFF",
+                                  fontSize: "18px",
+                                  fontWeight: "bold",
+                                  textTransform: "uppercase",
+                                  cursor: "pointer",
+                                  marginTop: "0px",
+                                  border: "1px solid",
+                                  borderImageSource:
+                                    "linear-gradient(102.88deg, #80E8DD 10.19%, #7CC2F6 43.04%, #AF81E4 72%, #D855A6 93.18%)",
+                                  borderImageSlice: "1",
                                 }}
                               >
                                 <button
-                                  sx={{color: "#FFFFFF",fontSize: "18px",fontWeight: "bold",textTransform: "uppercase",cursor: "pointer",height: "56px",width: "464px",border: "none",background: "transparent","&:hover": {  color: "#7CC2F6",},
+                                  sx={{
+                                    color: "#FFFFFF",
+                                    fontSize: "18px",
+                                    fontWeight: "bold",
+                                    textTransform: "uppercase",
+                                    cursor: "pointer",
+                                    height: "56px",
+                                    width: "464px",
+                                    border: "none",
+                                    background: "transparent",
+                                    "&:hover": { color: "#7CC2F6" },
                                   }}
                                   onClick={() => {
                                     viewOnBscscan();

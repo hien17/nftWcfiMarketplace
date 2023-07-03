@@ -6,19 +6,21 @@ import Box from "@mui/system/Box";
 import { Button } from "@mui/material";
 import { ethers } from "ethers";
 import { contractABI, contractAddress } from "../utils/constants.js";
-// import { useContractWrite, usePrepareContractWrite } from "wagmi";
-// import { parseEther } from "viem";
 import { useMoralis, useWeb3Contract } from "react-moralis";
-import { toast } from 'react-toastify'; 
 import {findRarity,findValue,getTier,convertTierToColor,convertTierToBorderColor} from "./Data";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const SingleCard = ({ listing }) => {
+
+const SingleCard = ({ listing}) => {
   const {
     currentAccount,
     connectWallet,
     contractAddress,
     marketplaceAddress,
     marketplaceABI,
+    showToastPending,
+    showToastSuccess,
   } = useContext(Context);
   const { user, enableWeb3, isWeb3Enabled, 
     account, isWeb3EnableLoading } = useMoralis();
@@ -90,16 +92,21 @@ const SingleCard = ({ listing }) => {
     },
   });
   const handleSell = async () => {
+    setShowModalSell(false);
+    setShowModal(false);
     try {
-      await listNFT({
+      showToastPending();
+      const rtListNFT = await listNFT({
         onSuccess: (tx) => tx.wait().then(() =>  {
           console.log("LIST NFT SUCCESSFULL !");
+          showToastSuccess();
           setTimeout(() =>{
             window.location.reload();
-          }, 2000);
+          }, 4000);
         }),
         onError: (error) => console.log(error),
       });
+      if (!rtListNFT) toast.dismiss();
     } catch (error) {
       console.error("Error List NFT:", error);
     }
@@ -118,16 +125,20 @@ const SingleCard = ({ listing }) => {
     params: { tokenId: listing.tokenId },
   });
   const handleUnlist = async () => {
+    setShowModal(false);
     try {
-      await unlistNFT({
+      showToastPending();
+      const rtListNFT = await unlistNFT({
         onSuccess: (tx) => tx.wait().then(() =>  {
           console.log("UNLIST NFT SUCCESSFULL !");
+          showToastSuccess();
           setTimeout(() =>{
             window.location.reload();
-          }, 2000);
+          }, 4000);
         }),
         onError: (error) => console.log(error),
       });
+      if (!rtListNFT) toast.dismiss();
     } catch (error) {
       console.error("Error Unlist NFT:", error);
     }
@@ -153,7 +164,7 @@ const SingleCard = ({ listing }) => {
           console.log("BUY NFT SUCCESSFULL !");
           setTimeout(() =>{
             window.location.reload();
-          }, 2000);
+          }, 4000);
         }),
         onError: (error) => console.log(error),
       });
@@ -184,7 +195,7 @@ const SingleCard = ({ listing }) => {
           console.log("UPDATE PRICE SUCCESSFULL !");
           setTimeout(() =>{
             window.location.reload();
-          }, 2000);
+          }, 4000);
         }),
         onError: (error) => console.log(error),
       });
@@ -210,7 +221,7 @@ const SingleCard = ({ listing }) => {
           console.log("APPROVE SUCCESSFULL !");
           setTimeout(() =>{
             window.location.reload();
-          }, 2000);
+          }, 4000);
         }),
         onError: (error) => console.log(error),
       });

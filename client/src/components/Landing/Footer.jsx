@@ -1,5 +1,5 @@
 import React from "react";
-import "../App.css";
+import "../../App.css";
 import { TbBrandTelegram } from "react-icons/tb";
 import { TbBrandTwitter } from "react-icons/tb";
 import { TbBrandYoutube } from "react-icons/tb";

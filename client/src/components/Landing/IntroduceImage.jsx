@@ -1,5 +1,5 @@
 import React from 'react'
-import "../App.css";
+import "../../App.css";
 import Brazil from "/Image/Tiers/Brazil.png"
 
 const IntroduceImage = () => {
