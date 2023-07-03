@@ -4,12 +4,16 @@ import HomeImage from "/Image/HomeImage.png";
 import { Context } from "../../context/Context.jsx";
 import { shortenAddress } from "../../utils/shortenAddress";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
+import { GoDotFill } from "react-icons/go";
 import Tier from "../Tier";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/system/Box";
 import { useMoralis, useWeb3Contract } from "react-moralis";
 import { useQuery, gql } from "@apollo/client";
-import { marketplaceABI, marketplaceAddress } from "../../utils/constantsMarket";
+import {
+  marketplaceABI,
+  marketplaceAddress,
+} from "../../utils/constantsMarket";
 import { contractABI, contractAddress } from "../../utils/constants";
 import Moralis from "moralis-v1";
 import {
@@ -361,8 +365,174 @@ const HomeBody = () => {
             <div className="w-[636px] absolute right-0 bottom-0"></div>
           </div>
         </div>
-        <div className="w-[464px] bg-black flex-col flex gap-10">
-          <div className="h-[585px] bg-[#0E1114]"></div>
+        <div className="w-[464px] bg-black ">
+          <div
+            className="h-[585px] bg-[#0E1114] flex-col flex 
+          p-[40px] gap-[24px]"
+          >
+            <div className=" text-left">
+              <div className="text-lg ">Match Schedule</div>
+              <div className="text-xs text-slate-500">Match day 1 of 3</div>
+            </div>
+            <div className="flex flex-col gap-[24px]">
+              <div className="text-left text-slate-500 text-xs">Group A</div>
+              <div className="flex flex-row justify-between">
+                <div className="flex flex-row justify-between w-full pr-[24px] border-r border-slate-700">
+                  <div className="flex flex-col gap-[8px]">
+                    <div className="flex flex-row">
+                      <img
+                        className="w-[24px] h-[24px] mr-[8px]"
+                        src="/Image/Flag/tier4/Qatar.png"
+                      />
+                      <div>QAT</div>
+                    </div>
+                    <div className="flex flex-row">
+                      <img
+                        className="w-[24px] h-[24px] mr-[8px]"
+                        src="/Image/Flag/tier3/Ecuador.png"
+                      />
+                      <div>ECU</div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-[8px] text-slate-500">
+                    <div className=" ">1</div>
+                    <div className=" ">0</div>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-[8px] pl-[24px]">
+                  <div className=" ">20/11</div>
+                  <div className="flex flex-row  text-lime-500">
+                    <GoDotFill className="my-auto" /> <div>Live</div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-row justify-between">
+                <div className="flex flex-row justify-between w-full pr-[24px] border-r border-slate-700">
+                  <div className="flex flex-col gap-[8px]">
+                    <div className="flex flex-row">
+                      <img
+                        className="w-[24px] h-[24px] mr-[8px]"
+                        src="/Image/Flag/tier2/Senegal.png"
+                      />
+                      <div>SEN</div>
+                    </div>
+                    <div className="flex flex-row">
+                      <img
+                        className="w-[24px] h-[24px] mr-[8px]"
+                        src="/Image/Flag/tier2/Netherlands.png"
+                      />
+                      <div>NED</div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-[8px] text-slate-500">
+                    <div className=" ">1</div>
+                    <div className=" ">3</div>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-[8px] pl-[24px]">
+                  <div className=" ">20/11</div>
+                  <div className="">FT</div>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col gap-[24px]">
+              <div className="text-left text-slate-500 text-xs">Group B</div>
+              <div className="flex flex-row justify-between">
+                <div className="flex flex-row justify-between w-full pr-[24px] border-r border-slate-700">
+                  <div className="flex flex-col gap-[8px]">
+                    <div className="flex flex-row">
+                      <img
+                        className="w-[24px] h-[24px] mr-[8px]"
+                        src="/Image/Flag/tier1/England.png"
+                      />
+                      <div>ENG</div>
+                    </div>
+                    <div className="flex flex-row">
+                      <img
+                        className="w-[24px] h-[24px] mr-[8px]"
+                        src="/Image/Flag/tier4/Iran.png"
+                      />
+                      <div>IRN</div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-[8px] text-slate-500">
+                    <div className=" ">4</div>
+                    <div className=" ">0</div>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-[8px] pl-[24px]">
+                  <div className=" ">20/11</div>
+                  <div className="flex flex-row  text-lime-500">
+                    <GoDotFill className="my-auto" /> <div>Live</div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-row justify-between">
+                <div className="flex flex-row justify-between w-full pr-[24px] border-r border-slate-700">
+                  <div className="flex flex-col gap-[8px]">
+                    <div className="flex flex-row">
+                      <img
+                        className="w-[24px] h-[24px] mr-[8px]"
+                        src="/Image/Flag/tier2/United States.png"
+                      />
+                      <div>USA</div>
+                    </div>
+                    <div className="flex flex-row">
+                      <img
+                        className="w-[24px] h-[24px] mr-[8px]"
+                        src="/Image/Flag/tier3/Wales.png"
+                      />
+                      <div>WAL</div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-[8px] text-slate-500">
+                    <div className=" ">1</div>
+                    <div className=" ">0</div>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-[8px] pl-[24px]">
+                  <div className=" ">20/11</div>
+                  <div className="">FT</div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="
+            flex flex-row relative"
+            >
+              <div className="flex flex-row gap-[24px]">
+                <button
+                  className="rounded-lg  
+                bg-slate-700"
+                >
+                  <div className="m-[1px] w-[24px] h-[24px]  bg-black rounded-lg ">
+                    <div to="/home" className="text-slate-500 text-base">
+                      &lt;
+                    </div>
+                  </div>
+                </button>
+                <button
+                  className="rounded-lg  
+                bg-gradient-to-r from-teal-200 via-cyan-300 
+                via-purple-400 to-pink-400 "
+                >
+                  <div className="m-[1px] w-[24px] h-[24px]  bg-black rounded-lg ">
+                    <div to="/home" className="text-white text-base">
+                      &gt;
+                    </div>
+                  </div>
+                </button>
+                
+              </div>
+              <button
+                className="bg-gradient-to-r from-teal-300 via-cyan-400 
+      via-purple-500 to-pink-500 text-transparent 
+        bg-clip-text absolute right-0 w-[80px]"
+              >
+                See all
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

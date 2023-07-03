@@ -7,7 +7,7 @@ import { useQuery, gql } from '@apollo/client'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../App.css";
-import { PiSpinnerGap } from "react-icons/Pi";
+import { PiSpinnerGap } from "react-icons/pi";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 export const Context = React.createContext();
 const { ethereum } = window;

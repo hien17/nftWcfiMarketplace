@@ -7,9 +7,9 @@ import { useQuery, gql } from '@apollo/client'
 import { marketplaceABI, marketplaceAddress } from "../../utils/constantsMarket.js";
 import { ToastContainer, toast } from "react-toastify";
 const MarketplaceBody = () => {
-  const { currentAccount, connectWallet, 
-    isApprovalForAll,showToastPending,showToastSuccess } =
-    useContext(Context);
+  // const { currentAccount, connectWallet, 
+  //   isApprovalForAll,showToastPending,showToastSuccess } =
+  //   useContext(Context);
  const [listings, setListings] = useState(false);
   const GET_ITEM_MK = gql`
         {
@@ -46,7 +46,8 @@ const getListings = (index) => {
   }
 };
 
- 
+const [modalFilter,setModalFilter] = useState(false);
+
   return (
     <div className="w-screen h-[3364px] bg-black flex flex-col gap-[40px]">
       <Box
@@ -100,9 +101,40 @@ const getListings = (index) => {
               <option value="option3">Price: low to high</option>
             </Select>
           </button>
-          <button className="py-[12px] px-[16px] border border-slate-800 rounded-xl">
+          <button className="py-[12px] px-[16px] 
+          border border-slate-800 rounded-xl"
+          onClick={()=>setModalFilter(true)}
+          >
             Filter
           </button>
+          {modalFilter&&
+          (<Modal
+          open={modalFilter}
+          onClose={() => setModalFilter(false)}
+          className="bg-opacity-64 bg-[191D24] 
+          bg-blur-sm backdrop-blur-sm bg-cover"
+          >
+            <Box className="mt-[120px] mx-auto 
+            w-[632px] border border-white
+            p-[40px] flex flex-col gap-[40px] text-white">
+              <div>
+                Filters
+              </div>
+              <div>
+                <div>
+                  Price
+                </div>
+                <div className="flex flex-row">
+                  <div>Min</div>
+                  <div>To</div>
+                  <div>Max</div>
+                </div>
+              </div>
+              <div>
+                <div>National Team</div>
+              </div>
+            </Box>
+        </Modal>)}
         </div>
       </Box>
       <ToastContainer/>

@@ -158,16 +158,20 @@ const SingleCard = ({ listing}) => {
     msgValue: listing.price,
   });
   const handleBuy = async () => {
+    setShowModal(false);
     try {
-      await buyNFT({
+      showToastPending();
+      const rtListNFT = await buyNFT({
         onSuccess: (tx) => tx.wait().then(() =>  {
           console.log("BUY NFT SUCCESSFULL !");
+          showToastSuccess();
           setTimeout(() =>{
             window.location.reload();
           }, 4000);
         }),
         onError: (error) => console.log(error),
       });
+      if (!rtListNFT) toast.dismiss();
     } catch (error) {
       console.error("Error Buy NFT:", error);
     }
@@ -189,20 +193,26 @@ const SingleCard = ({ listing}) => {
     },
   });
   const handleUpdate = async () => {
+    setShowModalSell(false);
+    setShowModal(false);
     try {
-      await updateListing({
+      showToastPending();
+      const rtListNFT = await updateListing({
         onSuccess: (tx) => tx.wait().then(() =>  {
           console.log("UPDATE PRICE SUCCESSFULL !");
+          showToastSuccess();
           setTimeout(() =>{
             window.location.reload();
           }, 4000);
         }),
         onError: (error) => console.log(error),
       });
+      if (!rtListNFT) toast.dismiss();
     } catch (error) {
       console.error("Error Update NFT:", error);
     }
   };
+  //set Approval For All NFTs
   const {
     runContractFunction: setApprovalForAll,
     data: dataSetApprovalForAll,
@@ -215,16 +225,20 @@ const SingleCard = ({ listing}) => {
     params: { operator: marketplaceAddress, approved: true },
   });
   const handleApprove = async () => {
+    setShowModal(false);
     try {
-      await setApprovalForAll({
+      showToastPending();
+      const rtListNFT = await setApprovalForAll({
         onSuccess: (tx) => tx.wait().then(() =>  {
           console.log("APPROVE SUCCESSFULL !");
+          showToastSuccess();
           setTimeout(() =>{
             window.location.reload();
           }, 4000);
         }),
         onError: (error) => console.log(error),
       });
+      if (!rtListNFT) toast.dismiss();
     } catch (error) {
       console.error("Error Approve NFT:", error);
     }
