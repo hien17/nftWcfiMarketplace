@@ -3,7 +3,7 @@ import { Navbar, Footer, Introduce, IntroduceImage } from "../components";
 
 const LandingPage = () => {
   return (
-    <div className="w-screen h-[6485px] bg-black">
+    <div className="w-full h-full bg-black flex">
       <Navbar></Navbar>
       <Introduce></Introduce>
       <IntroduceImage></IntroduceImage>

@@ -7,8 +7,8 @@ import { TbBrandDiscord } from "react-icons/tb";
 
 const Footer = () => {
   return (
-    <div className="Footer text-white flex flex-row">
-      <div className="contentFooter grid gap-[7.5rem]">
+    <div className="Footer text-white flex flex-row w-full mt-[1200px] justify-center">
+      <div className="contentFooter flex flex-col gap-[7.5rem]">
         <div className="menuItemFooter flex text-lg font-blod justify">
           Home <div>&nbsp;&nbsp;&nbsp;</div>/<div>&nbsp;&nbsp;&nbsp;</div>{" "}
           Marketplace <div>&nbsp;&nbsp;&nbsp;</div>/
