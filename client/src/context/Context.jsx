@@ -161,6 +161,20 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
+   // get nft in my assets
+   async function getAllNFTs() {
+    const contract = new web3.eth.Contract(contractAbi, contractAddress);
+    const balance = await contract.methods.balanceOf(web3.eth.defaultAccount).call();
+    const nfts = [];
+  
+    for (let i = 0; i < balance; i++) {
+      const tokenId = await contract.methods.tokenOfOwnerByIndex(web3.eth.defaultAccount, i).call();
+      const nft = await contract.methods.getNFT(tokenId).call(); // Replace with your own NFT data retrieval function
+      nfts.push(nft);
+    }
+  
+    return nfts;
+  }
   
   useEffect(() => {
     checkIfWalletIsConnect();
@@ -193,6 +207,7 @@ export const ContextProvider = ({ children }) => {
         contractAddress,
         getTraitsFromTokenId,
         getAccountBalance,
+        getAllNFTs,
       }}
     >
       {children}

@@ -143,7 +143,7 @@ const HomeBody = () => {
                       {currentAccount ? (
                         <>
                           <button className="" onClick={handleMint}>
-                            <p>{"Mint\u00a0with\u00a00.01\u00a0BNB"}</p>
+                            <p>{"Mint\u00a0with\u00a00.001\u00a0BNB"}</p>
                           </button>
                           <Modal
                             open={showModal}
